@@ -1,2 +1,6 @@
+# ignore following
 src/Secrets/*
 out/*
+
+# keep following
+!src/Secrets/.gitkeep
