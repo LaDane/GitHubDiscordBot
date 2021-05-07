@@ -1,5 +1,2 @@
 src/Secrets/*
-out/production/GitHubDiscordBot/Secrets/*
-out/production/GitHubDiscordBot/Secrets/DiscordBot.json
 out/*
-*.json
