@@ -12,6 +12,6 @@ public class Main {
         Bot.run();
 
         BotChannel testChannel = new BotChannel("840211735100653608", "log");
-        EditChannelName.editChannelName(testChannel, "New-Name");
+        EditChannelName.editChannelName(testChannel, "change-test");
     }
 }
