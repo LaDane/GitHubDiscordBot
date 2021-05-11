@@ -37,7 +37,7 @@ public class Bot {
     }
 
 
-    public static void setupBot() {                         // user input
+    private static void setupBot() {                         // user input
         String tokenMsg = "\nInput bot token\n";
         String tokenInput = UI.UserInput.getUserInput(tokenMsg);
 
@@ -81,5 +81,9 @@ public class Bot {
 
         System.out.println("Bot setup successful!");
         Config.guild = Config.jda.getGuildById(bot.getServerID());
+
+
+
+        //TODO: Check commit status loop (60 seconds)
     }
 }
