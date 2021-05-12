@@ -24,11 +24,10 @@ public class Request {
             // Convert JSON to JsonElement
             JsonElement jsonElement = gson.fromJson(res, JsonElement.class);
             // Convert JsonElement to JsonObject (.get() possible)
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
-            return jsonObject;
+            return jsonElement.getAsJsonObject();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return null;
     }
@@ -42,6 +41,4 @@ public class Request {
         }
         return result.toString(StandardCharsets.UTF_8.name());
     }
-
-
 }

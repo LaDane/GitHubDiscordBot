@@ -5,6 +5,7 @@ import javax.security.auth.login.LoginException;
 import Bot.*;
 import Member.Members;
 import Member.Member;
+import Web.API;
 
 import java.util.ArrayList;
 
@@ -13,10 +14,13 @@ public class Main {
 
     public static void main(String[] args) throws LoginException, InterruptedException {
         Bot.run();
-
         try {Config.jda.awaitReady();} catch (Exception e) {System.out.println("Bot not ready");}
+
+
 //        SetupChannels.setupChannels();
 //        SetupRoles.setupRoles();
+
+//        BotLoop.startBotLoop();
 
         /* Change text channel name */
 //        BotChannel testChannel = new BotChannel("840211735100653608", "log");
@@ -36,5 +40,11 @@ public class Main {
         Config.members.deserializeDatamatikerClassSimple();
 //        System.out.println(Config.members.getMembers().get(0).getMemberGithubName());
 //        System.out.println(Config.members.getMembers().get(1).getMemberGithubName());
+
+
+        /* Test api */
+//        System.out.println(API.request("https://api.github.com/users/LaDane"));
+//        System.out.println(API.request("https://api.github.com/search/commits?q=author:LaDane&sort=author-date&order=desc&page=1", "application/vnd.github.cloak-preview"));
+
     }
 }

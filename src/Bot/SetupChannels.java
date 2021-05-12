@@ -2,66 +2,65 @@ package Bot;
 
 import BotChannel.BotChannel;
 import Core.Config;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Category;
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.GuildChannel;
-import net.dv8tion.jda.api.exceptions.RateLimitedException;
-import net.dv8tion.jda.api.requests.restaction.ChannelAction;
-import net.dv8tion.jda.api.requests.restaction.order.CategoryOrderAction;
-import net.dv8tion.jda.api.requests.restaction.order.ChannelOrderAction;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 
-import java.nio.channels.Channel;
-import java.util.Comparator;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.function.BooleanSupplier;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public class SetupChannels {
 
-    private static String categoryName = "STATS";
-    private static String channelNames[] = {
-            "Most Commits = ",
-            "Most Repos = ",
-            "Most points = "
+    private static final String categoryName = "STATS";
+    private enum channelType {VOICE, TEXT}
+    private static final String[][] channelNames = {
+//            {"Most Commits = ", "VOICE"},
+//            {"Most Repos = ", "VOICE"},
+//            {"Most points = ", "VOICE"},
+//            {"members", "TEXT"},
+            {"graphs", "TEXT"}
     };
 
+    private static Category cat;
 
     public static void setupChannels() {
-
-//        newCategory(categoryName);
-
-        for (int i = 0; i < channelNames.length; i++) {
-            newTextChannel(channelNames[i]);
-        }
+        newCategory(categoryName);
     }
 
     private static void newCategory(String name) {
-        Config.guild.createCategory(name).queue();
-        Category cat = Config.guild.getCategoriesByName(name, true).get(0);
-        Config.guild.modifyCategoryPositions().selectPosition(cat.getPosition()).moveTo(0).queue();
-
-//        ChannelAction ca = Config.guild.createCategory(name);
-//        CategoryOrderAction coAction = new CategoryOrderAction(Config.guild, ChannelType.CATEGORY);
-//        ca.modifyCategoryPositions()
+        Consumer<? super Category> callbackCategory = (response) -> saveCategory(response, name);
+        Config.guild.createCategory(name).setPosition(0).queue(callbackCategory);
     }
 
-    private static void newTextChannel(String name) {
-        String[] channelID = new String[1];
-//        Config.guild.createTextChannel(name).queue(textChannel -> {
-//            channelID[0] = textChannel.getId();});
-        Config.guild.createVoiceChannel(name).queue(voiceChannel -> {
-            channelID[0] = voiceChannel.getId();});
+    private static void saveCategory(Category response, String name) {
+        cat = response;
+        Config.allChannels.addToAllCategories(new BotChannel(response.getId(), name));
+        Config.allChannels.serializeAllChannelsSimple();
+        createAllChannels();
+    }
 
-//        Channel channel = Config.guild.getChannelsByName(name, true).get(0)
+    private static void createAllChannels() {
+        for (String[] channelName : channelNames) {
+            if (channelName[1].equals("VOICE"))
+                createNewChannel(channelName[0], channelType.VOICE);
+            else if (channelName[1].equals("TEXT"))
+                createNewChannel(channelName[0], channelType.TEXT);
+        }
+    }
 
-        BotChannel channel = new BotChannel(channelID[0], name);
-        Config.allChannels.addToAllChannels(channel);
+    private static void createNewChannel(String name, channelType type) {
+        Consumer<? super VoiceChannel> callbackVoice = (response) -> saveChannel(response.getId(), name);
+        Consumer<? super TextChannel> callbackText = (response) -> saveChannel(response.getId(), name);
+
+        if (type.equals(channelType.VOICE))
+            Config.guild.createVoiceChannel(name, cat).queue(callbackVoice);
+        else if (type.equals(channelType.TEXT))
+            Config.guild.createTextChannel(name, cat).queue(callbackText);
+    }
+
+    private static void saveChannel(String id, String name) {
+        Config.allChannels.addToAllChannels(new BotChannel(id, name));
         Config.allChannels.serializeAllChannelsSimple();
     }
 }

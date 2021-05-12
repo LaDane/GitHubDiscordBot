@@ -8,11 +8,15 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class AllChannels {
-    private ArrayList<BotChannel> allChannels = new ArrayList<BotChannel>();
+    private ArrayList<BotChannel> allCategories = new ArrayList<>();
+    private ArrayList<BotChannel> allChannels = new ArrayList<>();
 
     public AllChannels(ArrayList<BotChannel> allChannels) {
         this.allChannels = allChannels;
     }
+
+    public ArrayList<BotChannel> getAllCategories() {return allCategories;}
+    public void addToAllCategories(BotChannel category) {allCategories.add(category);}
 
     public ArrayList<BotChannel> getAllChannels() {return allChannels;}
     public void addToAllChannels(BotChannel channel) {allChannels.add(channel);}

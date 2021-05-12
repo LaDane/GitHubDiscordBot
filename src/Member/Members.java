@@ -16,6 +16,7 @@ public class Members {
 
     public ArrayList<Member> getMembers() {return members;}
     public void addToMembers(Member member) {members.add(member);}
+    public void removeFromMembers(int i) {members.remove(i);}
 
 
     public void serializeDatamatikerClassSimple() {
