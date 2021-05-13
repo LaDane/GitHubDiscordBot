@@ -1,15 +1,15 @@
 package BotChannel;
 
 public class BotChannel {
-    private String CHANNELID;
-    private String CHANNELNAME;
+    private String channelID;
+    private String channelName;
 
     public BotChannel(String channelID, String channelName) {
-        this.CHANNELID = channelID;
-        this.CHANNELNAME = channelName;
+        this.channelID = channelID;
+        this.channelName = channelName;
     }
 
-    public String getChannelID() {return CHANNELID;}
-    public String getChannelName() {return CHANNELNAME;}
-    public void setChannelName(String newName) {this.CHANNELNAME = newName;}
+    public String getChannelID() {return channelID;}
+    public String getChannelName() {return channelName;}
+    public void setChannelName(String newName) {this.channelName = newName;}
 }

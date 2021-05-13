@@ -3,11 +3,7 @@ package Core;
 import javax.security.auth.login.LoginException;
 
 import Bot.*;
-import Member.Members;
-import Member.Member;
 import Web.API;
-
-import java.util.ArrayList;
 
 
 public class Main {
@@ -15,7 +11,7 @@ public class Main {
     public static void main(String[] args) throws LoginException, InterruptedException {
         Bot.run();
         try {Config.jda.awaitReady();} catch (Exception e) {System.out.println("Bot not ready");}
-
+        Config.allChannels.deserializeAllChannelsSimple();
 
 //        SetupChannels.setupChannels();
 //        SetupRoles.setupRoles();
@@ -37,7 +33,7 @@ public class Main {
 
 
         /* Load members from members.json*/
-        Config.members.deserializeDatamatikerClassSimple();
+        Config.members.deserializeMembersSimple();
 //        System.out.println(Config.members.getMembers().get(0).getMemberGithubName());
 //        System.out.println(Config.members.getMembers().get(1).getMemberGithubName());
 
@@ -45,6 +41,7 @@ public class Main {
         /* Test api */
 //        System.out.println(API.request("https://api.github.com/users/LaDane"));
 //        System.out.println(API.request("https://api.github.com/search/commits?q=author:LaDane&sort=author-date&order=desc&page=1", "application/vnd.github.cloak-preview"));
+//        System.out.println(API.request("https://api.github.com/repos/:ladane/:repo/commits?per_page=1"));
 
     }
 }

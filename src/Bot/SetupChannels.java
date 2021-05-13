@@ -1,24 +1,24 @@
 package Bot;
 
-import BotChannel.BotChannel;
-import Core.Config;
 import net.dv8tion.jda.api.entities.Category;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
-
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+
+import BotChannel.BotChannel;
+import Core.Config;
 
 public class SetupChannels {
 
-    private static final String categoryName = "STATS";
+    private static final String categoryName = "STAT TRACKER";
     private enum channelType {VOICE, TEXT}
     private static final String[][] channelNames = {
+//            {"Most Points = ", "VOICE"},
 //            {"Most Commits = ", "VOICE"},
 //            {"Most Repos = ", "VOICE"},
-//            {"Most points = ", "VOICE"},
-//            {"members", "TEXT"},
+            {"members", "TEXT"},
+            {"leaderboard", "TEXT"},
+            {"commits-commands", "TEXT"},
             {"graphs", "TEXT"}
     };
 

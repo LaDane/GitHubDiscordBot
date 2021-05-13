@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="io.quickchart:QuickChart:1.0.0" type="repository">
+    <properties maven-id="io.quickchart:QuickChart:1.0.0" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/QuickChart-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/json-20190722.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpclient-4.5.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpcore-4.4.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-codec-1.11.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

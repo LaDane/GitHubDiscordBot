@@ -16,10 +16,10 @@ public class Members {
 
     public ArrayList<Member> getMembers() {return members;}
     public void addToMembers(Member member) {members.add(member);}
-    public void removeFromMembers(int i) {members.remove(i);}
+    public void removeFromMembers(Member member) {members.remove(member);}
 
 
-    public void serializeDatamatikerClassSimple() {
+    public void serializeMembersSimple() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         File fileName = new File("src/Secrets/Members.json");
@@ -30,7 +30,7 @@ public class Members {
         }
     }
 
-    public void deserializeDatamatikerClassSimple() {
+    public void deserializeMembersSimple() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         File fileName = new File("src/Secrets/Members.json");
@@ -39,24 +39,4 @@ public class Members {
         }
         catch (IOException e) {e.printStackTrace();}
     }
-
-//    public static void reloadUserData() {
-//        try {
-//            // create Gson instance
-//            Gson gson = new Gson();
-//
-//            // create a reader
-//            try (Reader reader = new FileReader(new File("src/users.json"))) {
-//                // convert JSON string to User object and add to array
-////                members.add(gson.fromJson(reader,Member.class));
-//                Member mem = gson.fromJson(reader,Member.class);
-//                members.add(mem);
-//                System.out.println("info: " + members.get(0).getMemberGithubName());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//    }
 }
