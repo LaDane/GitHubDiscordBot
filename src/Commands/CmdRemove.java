@@ -26,7 +26,7 @@ public class CmdRemove {
         }
     }
 
-    private static void removeMember(String memberID, String channelID) {
+    public static void removeMember(String memberID, String channelID) {
         Member memberCheck = Cmd.getMemberWithID(memberID);
         if (memberCheck == null)
             Cmd.sendErrorEmbed("Account not found!", null, channelID);

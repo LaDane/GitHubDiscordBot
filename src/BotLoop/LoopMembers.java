@@ -1,6 +1,7 @@
 package BotLoop;
 
 import BotChannel.BotChannel;
+import Commands.CmdRemove;
 import Core.Config;
 import Member.Member;
 import Web.API;
@@ -19,31 +20,45 @@ public class LoopMembers {
 
         for (Member member : Config.members.getMembers()) {
             String githubName = member.getMemberGithubName();
-            String request1 = API.request("https://api.github.com/search/commits?q=author:"+
+            String request1 = API.request("https://api.github.com/users/" + githubName);
+            String request2 = API.request("https://api.github.com/search/commits?q=author:"+
                             githubName +"&sort=author-date&order=desc&page=1",
                     "application/vnd.github.cloak-preview");
 
             JsonObject api1 = (JsonObject) new JsonParser().parse(request1);
-            String lastUpdate = api1.get("items").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
+            JsonObject api2 = (JsonObject) new JsonParser().parse(request2);
 
-            // TODO: CHECK IF MEMBER STILL EXISTS (GITHUB ACCOUNT, DISCORD, ETC.)
-            // TODO: UPDATE MEMBER REPOS & FOLLOWERS & FOLLOWING
+            // API error handling
+            try {api1.get("login").getAsString();}
+            catch (Exception e) {
+                System.out.println("Member Github account is no longer reachable!");
+//                CmdRemove.removeMember();
+            }
+            if (api2.get("items").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString() == null)
+                break;
+            String lastUpdate = api2.get("items").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
+
+            member.setMemberGithubPublicRepos(api1.get("public_repos").getAsString());
+            member.setMemberGithubFollowers(api1.get("followers").getAsString());
+            member.setMemberGithubFollowing(api1.get("following").getAsString());
+            Config.members.serializeMembersSimple();
 
             if (!lastUpdate.equals(member.getMemberLastCommit())) {
-                String request2 = API.request(lastUpdate);
-                JsonObject api2 = (JsonObject) new JsonParser().parse(request2);
+                String request3 = API.request(lastUpdate);
+                JsonObject api3 = (JsonObject) new JsonParser().parse(request3);
 
                 // Extract data
-                String repoName = api1.get("items").getAsJsonArray().get(0).getAsJsonObject().get("repository").getAsJsonObject().get("full_name").getAsString();
-                String commitMsg = api2.get("commit").getAsJsonObject().get("message").getAsString();
-                String commitDate = api2.get("commit").getAsJsonObject().get("committer").getAsJsonObject().get("date").getAsString();
+                String repoName = api2.get("items").getAsJsonArray().get(0).getAsJsonObject().get("repository").getAsJsonObject().get("full_name").getAsString();
+                String commitMsg = api3.get("commit").getAsJsonObject().get("message").getAsString();
+                String commitDate = api3.get("commit").getAsJsonObject().get("committer").getAsJsonObject().get("date").getAsString();
                 commitDate = commitDate.replaceAll("T", " ").replaceAll("Z","");
-                String commitHtml = api2.get("html_url").getAsString();
-                String authorHtml = api2.get("author").getAsJsonObject().get("html_url").getAsString();
-                String additions = api2.get("stats").getAsJsonObject().get("additions").getAsString();
-                String deletions = api2.get("stats").getAsJsonObject().get("deletions").getAsString();
+                String commitHtml = api3.get("html_url").getAsString();
+                String authorHtml = api3.get("author").getAsJsonObject().get("html_url").getAsString();
+                String additions = api3.get("stats").getAsJsonObject().get("additions").getAsString();
+                String deletions = api3.get("stats").getAsJsonObject().get("deletions").getAsString();
 
                 // Update member stats
+                member.setMemberLastCommit(lastUpdate);
                 member.setMemberPoints(member.getMemberPoints() + Integer.parseInt(additions));
                 member.setMemberCommits(member.getMemberCommits() + 1);
                 member.setMemberLinesAdded(member.getMemberLinesAdded() + Integer.parseInt(additions));
@@ -52,9 +67,6 @@ public class LoopMembers {
 
                 // Update bot logs
                 Config.botLogs.updateBotLogs(1, Integer.parseInt(additions), Integer.parseInt(deletions));
-
-                // Edit member embed
-                member.editMemberEmbed(membersChannel);
 
                 // Create commit embed
                 EmbedBuilder embed = new EmbedBuilder().setColor(Color.decode(member.getMemberColor()));
@@ -68,8 +80,10 @@ public class LoopMembers {
                         "\n**{-}** "+ deletions +" line"+ (deletions.equals("1") ? "" : "s") +" removed", false);
                 Config.guild.getTextChannelById(commitsCommandsChannel.getChannelID()).sendMessage(embed.build()).queue();
                 embed.clear();
-
             }
+
+            // Edit member embed
+            member.editMemberEmbed(membersChannel);
         }
     }
 }

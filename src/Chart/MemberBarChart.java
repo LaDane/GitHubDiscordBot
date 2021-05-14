@@ -50,7 +50,7 @@ public class MemberBarChart {
         chart.setConfig("{" +
                 "  type: 'bar'," +
                 "  data: {" +
-                "    labels: ['"+last7dates[0]+"', '"+last7dates[1]+"', '"+last7dates[2]+"', '"+last7dates[3]+"', '"+last7dates[4]+"', '"+last7dates[5]+"', '"+last7dates[6]+"']," +
+                "    labels: ['"+last7dates[6]+"', '"+last7dates[5]+"', '"+last7dates[4]+"', '"+last7dates[3]+"', '"+last7dates[2]+"', '"+last7dates[1]+"', '"+last7dates[0]+"']," +
                 "    datasets: [" +
                 "      {" +
                 "        label: 'Commits'," +
@@ -59,7 +59,7 @@ public class MemberBarChart {
                                                (Math.min(green + 100, 255)) + "," +
                                                (Math.min(blue + 100, 255)) + ")'," +
                 "        borderWidth: 2," +
-                "        data: ["+dayCommits[0]+", "+dayCommits[1]+", "+dayCommits[2]+", "+dayCommits[3]+", "+dayCommits[4]+", "+dayCommits[5]+", "+dayCommits[6]+"]," +
+                "        data: ["+dayCommits[6]+", "+dayCommits[5]+", "+dayCommits[4]+", "+dayCommits[3]+", "+dayCommits[2]+", "+dayCommits[1]+", "+dayCommits[0]+"]," +
                 "      }" +
                 "    ]," +
                 "  }," +

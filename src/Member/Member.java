@@ -82,8 +82,12 @@ public class Member {
     public int getMemberLinesRemoved() {return memberLinesRemoved;}
     public ArrayList<String> getMemberItemsOwned() {return memberItemsOwned;}
 
+    public void setMemberGithubPublicRepos(String repos) {memberGithubPublicRepos = repos;}
+    public void setMemberGithubFollowers(String followers) {memberGithubFollowers = followers;}
+    public void setMemberGithubFollowing(String following) {memberGithubFollowing = following;}
     public void setMemberDiscordMsgID(String ID) {memberDiscordMsgID = ID;}
-    public void setMemberEmbedColor(String color) {memberColor = color;}
+    public void setMemberLastCommit(String commit) {memberLastCommit = commit;}
+    public void setMemberColor(String color) {memberColor = color;}
     public void setMemberPoints(int points) {memberPoints = points;}
     public void setMemberCommits(int commits) {memberCommits = commits;}
     public void setMemberLinesAdded(int lines) {memberLinesAdded = lines;}
@@ -114,7 +118,7 @@ public class Member {
     }
 
     public void editMemberEmbed(BotChannel membersChannel) {
-        TextChannel mChannel = Config.guild.getTextChannelById(membersChannel.getChannelID());
+        TextChannel mChannel = Config.guild.getTextChannelById(membersChannel.getChannelID());      // TODO: ERROR HERE
         if (mChannel == null) {System.out.println("ERROR: Members channel does not exist!"); return;}
 
         EmbedBuilder memberEmbed = memberEmbed(memberGithubName);
