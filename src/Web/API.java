@@ -1,5 +1,6 @@
 package Web;
 
+import Core.Config;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -14,15 +15,19 @@ public class API {
 
     public static String request(String url) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build(); //.header("Authorization", "Bearer " + "")
+//        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build(); //.header("Authorization", "Bearer " + "")
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Authorization", Config.app.getTOKEN()).build();
         return client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(HttpResponse::body).join();
     }
 
     public static String request(String url, String header) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Accept", header).build();
+//        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Accept", header).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Accept", header).header("Authorization", Config.app.getTOKEN()).build();
         return client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(HttpResponse::body).join();
     }
+
+    // .header("Authorization", Config.app.getClientToken())
 
 
     //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "Your Oauth token");

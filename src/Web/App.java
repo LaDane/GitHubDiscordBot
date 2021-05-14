@@ -8,16 +8,13 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 
 public class App {
-    private String clientID;
-    private String clientSecret;
+    private String TOKEN;
 
-    public App(String clientID, String clientSecret) {
-        this.clientID = clientID;
-        this.clientSecret = clientSecret;
+    public App(String TOKEN) {
+        this.TOKEN = TOKEN;
     }
 
-    public String getClientID() {return clientID;}
-    public String getClientSecret() {return clientSecret;}
+    public String getTOKEN() {return TOKEN;}
 
 
     public void serializeAppSimple() {

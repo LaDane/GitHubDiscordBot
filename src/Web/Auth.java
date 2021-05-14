@@ -20,27 +20,27 @@ public class Auth {
     private static final String PROTECTED_RESOURCE_URL = "https://api.github.com/user";
 
     private Auth() {
-    }
-
+/*
     public static void authRequest(String url) {
         final String clientId = Config.app.getClientID();
         final String clientSecret = Config.app.getClientSecret();
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .callback("http://localhost:8080/login/auth")
+                .callback("call back here")
                 .build(GitHubApi.instance());
 
         final String authorizationUrl = service.getAuthorizationUrl(secretState);
+        OAuthRequest request = new OAuthRequest(Verb.GET, authorizationUrl);
+        System.out.println(request);
+
 
 
         // final String code = authorizationUrl.substring(authorizationUrl.indexOf("code=") + 20);         // trying to get code from redirect url
         // System.out.println("authCode = "+ code);
 
-
-/*
         OAuth2AccessToken accessToken = null;
-        try {accessToken = service.getAccessToken(code, "http://localhost:8080/login/auth");}
+        try {accessToken = service.getAccessToken(code);}
         catch (Exception e) {e.printStackTrace();}
 
         final OAuthRequest request = new OAuthRequest(Verb.GET, url);
@@ -53,7 +53,6 @@ public class Auth {
                 System.out.println(response.getBody());
             } catch (Exception e) {e.printStackTrace();}
         }
-        
  */
     }
 
@@ -63,12 +62,13 @@ public class Auth {
     @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id and secret
-        final String clientId = "665bd3f7f772bda525ee";
-        final String clientSecret = "2dd69c2b945718a350270660c767865b0c63a7b5";
+        /*
+        final String clientId = "id here";
+        final String clientSecret = "secret here";
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .callback("http://localhost:8080/login/auth")
+                .callback("callback here")
                 .build(GitHubApi.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
 
@@ -116,5 +116,6 @@ public class Auth {
         }
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
+         */
     }
 }

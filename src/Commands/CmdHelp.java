@@ -25,7 +25,7 @@ public class CmdHelp {
         Config.guild.getTextChannelById(channelID).sendMessage(embed.build()).queue();
         embed.clear();
 
-        Auth.authRequest("https://api.github.com/users/ladane");
+
 
       //  System.out.println(NewToken.renew());
     }

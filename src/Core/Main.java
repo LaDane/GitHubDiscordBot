@@ -26,7 +26,7 @@ public class Main {
 //        SetupChannels.setupChannels();
 //        SetupRoles.setupRoles();
 
-//        BotLoop.startBotLoop();
+        BotLoop.startBotLoop();
 
         /* Change text channel name */
 //        BotChannel testChannel = new BotChannel("840211735100653608", "log");
@@ -55,5 +55,6 @@ public class Main {
 
 
 //        Auth test = new Auth();
+//        Auth.authRequest("https://api.github.com/users/ladane");
     }
 }
