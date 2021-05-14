@@ -6,6 +6,7 @@ import Bot.*;
 import BotLoop.BotLoop;
 import Chart.MemberBarChart;
 import Web.API;
+import Web.Auth;
 
 import java.time.LocalDate;
 
@@ -16,6 +17,7 @@ public class Main {
         Bot.run();
         try {Config.jda.awaitReady();} catch (Exception e) {System.out.println("Bot not ready");}
 
+        Config.app.deserializeAppSimple();
         Config.allChannels.deserializeAllChannelsSimple();
         Config.members.deserializeMembersSimple();
 //        Config.discordRoles.deserializeDiscordRolesSimple();
@@ -24,7 +26,7 @@ public class Main {
 //        SetupChannels.setupChannels();
 //        SetupRoles.setupRoles();
 
-        BotLoop.startBotLoop();
+//        BotLoop.startBotLoop();
 
         /* Change text channel name */
 //        BotChannel testChannel = new BotChannel("840211735100653608", "log");
@@ -51,5 +53,7 @@ public class Main {
 //        System.out.println(API.request("https://api.github.com/search/commits?q=author:LaDane&sort=author-date&order=desc&page=1", "application/vnd.github.cloak-preview"));
 //        System.out.println(API.request("https://api.github.com/repos/:ladane/:repo/commits?per_page=1"));
 
+
+//        Auth test = new Auth();
     }
 }

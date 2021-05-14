@@ -8,6 +8,7 @@ import io.quickchart.QuickChart;
 
 import java.awt.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class MemberBarChart {
     public static String memberBarChart(Member member) {
@@ -34,6 +35,7 @@ public class MemberBarChart {
                     dayCommits[i] += 1;
                 }
             }
+            last7dates[i] = LocalDate.now().minusDays(i).format(DateTimeFormatter.ofPattern("MMM dd"));
         }
         return createMemberBarChart(member, dayCommits, last7dates);
     }
@@ -43,6 +45,8 @@ public class MemberBarChart {
         int red = Color.decode(memberColor).getRed();
         int green = Color.decode(memberColor).getGreen();
         int blue = Color.decode(memberColor).getBlue();
+
+        //.format(DateTimeFormatter.ofPattern("dd MMM")
 
         QuickChart chart = new QuickChart();
         chart.setWidth(600);

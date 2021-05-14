@@ -46,6 +46,7 @@ public class MessageListener extends ListenerAdapter {
             case ("/leaderboard") -> CmdLeaderboard.cmdLeaderboard(channelID);
             case ("/userstats") -> CmdUserstats.cmdUserstats(message, memberID, channelID);
             case ("/flip") -> CmdFlip.cmdFlip(message, memberID, channelID);
+            case ("/shop") -> CmdShop.cmdShop(memberID, channelID);
         }
         /*
         if (message.contains("/help")) CmdHelp.cmdHelp(channelID);

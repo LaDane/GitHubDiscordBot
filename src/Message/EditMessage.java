@@ -10,7 +10,8 @@ import java.nio.channels.Channel;
 public class EditMessage {
 
     private static long testMessageID;
-    private static String botTestChannelID = "841210986705846302";
+    private static String textMessageShopID = "842757052060401664";
+    private static String botTestChannelID = "842672561288249344";
 
     public static void testMessage() {
         Config.guild.getTextChannelById(botTestChannelID).sendMessage("Edit this message").queue((message -> {
@@ -18,14 +19,14 @@ public class EditMessage {
         }));
     }
 
-    public static void editMessage() {
-
+    public static void editMessage(long messageShopID) {
         TextChannel channel = Config.guild.getTextChannelById(botTestChannelID);
-
-        channel.retrieveMessageById(testMessageID).queue((message) -> {
+        channel.retrieveMessageById(messageShopID).queue((message) -> {
             // use the message here, its an async callback
-//            message.addReaction(reaction).queue();                  // add reaction to a message
-            message.editMessage("bleh").queue();
+            message.addReaction("U+1F7E6").queue();
+            message.addReaction("U+1F7E5").queue();
+            message.addReaction("U+1F7E9").queue();
+            message.addReaction("U+1F7E7").queue();
             System.out.println("Message Content: " + message.getContentDisplay());
         }, (failure) -> {
             // if the retrieve request failed this will be called (also async)

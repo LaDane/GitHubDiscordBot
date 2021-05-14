@@ -19,7 +19,7 @@ public class LoopMembers {
     public static void loopMembers(BotChannel membersChannel, BotChannel leaderboardChannel, BotChannel commitsCommandsChannel) {
 
         for (Member member : Config.members.getMembers()) {
-            try {Thread.sleep(3 * 1000L);}
+            try {Thread.sleep(10 * 1000L);}
             catch (InterruptedException e) {Thread.currentThread().interrupt();}
             System.out.println("Current member = "+ member.getMemberGithubName());
 
@@ -31,24 +31,39 @@ public class LoopMembers {
 
             JsonObject api1 = (JsonObject) new JsonParser().parse(request1);
             JsonObject api2 = (JsonObject) new JsonParser().parse(request2);
-            System.out.println(api1);
 
-            // API error handling
-            if (api1 == null) {
-                System.out.println("HERE");
-                break;
-            }
+//            System.out.println();
+//            if (request2.contains("API rate limit exceeded")) {
+//                System.out.println("ERROR: API RATE LIMIT");
+//                break;
+//            }
 
+
+            try {
+                if (api1.get("message").getAsString().contains("API rate limit exceeded") || api2.get("message").getAsString().contains("API rate limit exceeded")) {
+                    System.out.println("RATE LIMITED! Sleeping for 3 minutes");
+                    try {Thread.sleep(180 * 1000L);}
+                    catch (InterruptedException e) {Thread.currentThread().interrupt();}
+                    return;
+                }
+            } catch (Exception e) {}
+
+//            // API error handling
+//            if (api1 == null) {
+//                System.out.println("Error: api1 = null");
+//                break;
+//            }
+//
             try {api1.get("login").getAsString();}
             catch (Exception e) {
-                System.out.println("Member Github account is no longer reachable!");
-                e.printStackTrace();
-                System.out.println(e);
+                System.out.println("Error: Member Github account is no longer reachable!");
+//                e.printStackTrace();
+//                System.out.println(e);
+//                CmdRemove.removeMember();     // TODO: FINISH AND GET GITHUB ACCOUNT NAME + SOMETHING ELSE
                 break;
-//                CmdRemove.removeMember();
             }
-            if (api2.get("items").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString() == null)
-                break;
+//            if (api2.get("items").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString() == null)
+//                break;
             String lastUpdate = api2.get("items").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
 
             member.setMemberGithubPublicRepos(api1.get("public_repos").getAsString());

@@ -167,11 +167,18 @@ public class Chart {
     }
 
 
-    private static void createRadarChart(int linesAdded,int lines2Added,int lines3Added,int lines4Added,int lines5Added,int lines6Added,int lines7Added,
-                                         int linesRemoved, int lines2Removed, int lines3Removed, int lines4Removed, int lines5Removed, int lines6Removed, int lines7Removed,
-                                         int totalCommits, int total2Commits, int total3Commits, int total4Commits, int total5Commits, int total6Commits, int total7Commits,
-                                         int pointsAcquired, int points2Acquired, int points3Acquired, int points4Acquired, int points5Acquired, int points6Acquired, int points7Acquired,
-                                         int botActiveMessages, int bot2ActiveMessages, int bot3ActiveMessages, int bot4ActiveMessages, int bot5ActiveMessages, int bot6ActiveMessages, int bot7ActiveMessages) {
+    /*
+    -----------------------------------------------------------------------------------
+       int[] linesAdded = {44, 20, 30, 40, 50, 60, 70};
+        int[] linesRemoved = {10, 20, 3, 40, 12, 19, 52};
+        int[] totalCommits = {3, 24, 6, 7, 4, 34, 2};
+        int[] pointsAcquired = {23, 4, 4, 5, 11, 22, 33};
+        int[] botActiveMessages = {44, 55, 66, 77, 88, 99, 1};
+
+        createRadarChart(linesAdded, linesRemoved, totalCommits, pointsAcquired, botActiveMessages);
+     */
+
+    private static void createRadarChart(int[] linesAdded, int[] linesRemoved, int[] totalCommits, int[] pointsAcquired, int[] botActiveMessages){
         QuickChart chart = new QuickChart();
         chart.setWidth(500);
         chart.setHeight(300);
@@ -192,13 +199,13 @@ public class Chart {
                 "        \"backgroundColor\": \"rgba(255, 99, 132, 0.5)\",\n" +
                 "        \"borderColor\": \"rgb(255, 99, 132)\",\n" +
                 "        \"data\": [\n" +
-                "          " + linesAdded + ",\n" +
-                "          " + lines2Added + ",\n" +
-                "          " + lines3Added + ",\n" +
-                "          " + lines4Added + ",\n" +
-                "          " + lines5Added + ",\n" +
-                "          " + lines6Added + ",\n" +
-                "          " + lines7Added + "\n" +
+                "          "+linesAdded[0]+",\n" +
+                "          "+linesAdded[1]+",\n" +
+                "          "+linesAdded[2]+",\n" +
+                "          "+linesAdded[3]+",\n" +
+                "          "+linesAdded[4]+",\n" +
+                "          "+linesAdded[5]+",\n" +
+                "          "+linesAdded[6]+"\n" +
                 "        ],\n" +
                 "        \"label\": \"Lines added\"\n" +
                 "      },\n" +
@@ -206,13 +213,13 @@ public class Chart {
                 "        \"backgroundColor\": \"rgba(255, 159, 64, 0.5)\",\n" +
                 "        \"borderColor\": \"rgb(255, 159, 64)\",\n" +
                 "        \"data\": [\n" +
-                "          " + linesRemoved + ",\n" +
-                "          " + lines2Removed + ",\n" +
-                "          " + lines3Removed + ",\n" +
-                "          " + lines4Removed + ",\n" +
-                "          " + lines5Removed + ",\n" +
-                "         " + lines6Removed + ",\n" +
-                "         " + lines7Removed + "\n" +
+                "          "+linesRemoved[0]+",\n" +
+                "          "+linesRemoved[1]+",\n" +
+                "          "+linesRemoved[2]+",\n" +
+                "          "+linesRemoved[3]+",\n" +
+                "          "+linesRemoved[4]+",\n" +
+                "         "+linesRemoved[5]+",\n" +
+                "         "+linesRemoved[6]+"\n" +
                 "        ],\n" +
                 "        \"label\": \"Lines removed\",\n" +
                 "        \"fill\": \"-1\"\n" +
@@ -221,13 +228,13 @@ public class Chart {
                 "        \"backgroundColor\": \"rgba(255, 205, 86, 0.5)\",\n" +
                 "        \"borderColor\": \"rgb(255, 205, 86)\",\n" +
                 "        \"data\": [\n" +
-                "          " + totalCommits + ",\n" +
-                "          " + total2Commits + ",\n" +
-                "          " + total3Commits + ",\n" +
-                "          " + total4Commits + ",\n" +
-                "          " + total5Commits + ",\n" +
-                "          " + total6Commits + ",\n" +
-                "          " + total7Commits + "\n" +
+                "          "+totalCommits[0]+",\n" +
+                "          "+totalCommits[1]+",\n" +
+                "          "+totalCommits[2]+",\n" +
+                "          "+totalCommits[3]+",\n" +
+                "          "+totalCommits[4]+",\n" +
+                "          "+totalCommits[5]+",\n" +
+                "          "+totalCommits[6]+"\n" +
                 "        ],\n" +
                 "        \"label\": \"Total commits\",\n" +
                 "        \"fill\": 1\n" +
@@ -236,13 +243,13 @@ public class Chart {
                 "        \"backgroundColor\": \"rgba(75, 192, 192, 0.5)\",\n" +
                 "        \"borderColor\": \"rgb(75, 192, 192)\",\n" +
                 "        \"data\": [\n" +
-                "         " + pointsAcquired + ",\n" +
-                "          " + points2Acquired + ",\n" +
-                "          " + points3Acquired + ",\n" +
-                "          " + points4Acquired + ",\n" +
-                "          " + points5Acquired + ",\n" +
-                "          " + points6Acquired + ",\n" +
-                "          " + points7Acquired + "\n" +
+                "         "+pointsAcquired[0]+",\n" +
+                "          "+pointsAcquired[1]+",\n" +
+                "          "+pointsAcquired[2]+",\n" +
+                "          "+pointsAcquired[3]+",\n" +
+                "          "+pointsAcquired[4]+",\n" +
+                "          "+pointsAcquired[5]+",\n" +
+                "          "+pointsAcquired[6]+"\n" +
                 "        ],\n" +
                 "        \"label\": \"Points acquired\",\n" +
                 "        \"fill\": false\n" +
@@ -251,13 +258,13 @@ public class Chart {
                 "        \"backgroundColor\": \"rgba(54, 162, 235, 0.5)\",\n" +
                 "        \"borderColor\": \"rgb(54, 162, 235)\",\n" +
                 "        \"data\": [\n" +
-                "          " + botActiveMessages + ",\n" +
-                "          " + bot2ActiveMessages + ",\n" +
-                "          " + bot3ActiveMessages + ",\n" +
-                "         " + bot4ActiveMessages + ",\n" +
-                "          " + bot5ActiveMessages + ",\n" +
-                "          " + bot6ActiveMessages + ",\n" +
-                "          " + bot7ActiveMessages + "\n" +
+                "          "+botActiveMessages[0]+",\n" +
+                "          "+botActiveMessages[1]+",\n" +
+                "          "+botActiveMessages[2]+",\n" +
+                "          "+botActiveMessages[3]+",\n" +
+                "          "+botActiveMessages[4]+",\n" +
+                "          "+botActiveMessages[5]+",\n" +
+                "          "+botActiveMessages[6]+"\n" +
                 "        ],\n" +
                 "        \"label\": \"Bot active messages\",\n" +
                 "        \"fill\": \"-1\"\n" +
@@ -283,8 +290,12 @@ public class Chart {
                 "  }\n" +
                 "}");
 
+        // Print the chart image URL
+        System.out.println(chart.getUrl());
+
     }
-       // return chart.getUrl();
+
+    // return chart.getUrl();
 
 
     }

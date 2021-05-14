@@ -6,7 +6,7 @@ import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.EmbedBuilder;
 import java.awt.*;
 import java.util.ArrayList;
-
+import Chart.*;
 import BotLoop.*;
 import Chart.MemberBarChart;
 import Core.Config;
@@ -27,6 +27,7 @@ public class CmdUserstats {
                 for (Member d : Config.members.getMembers()) {
                     if (d.getMemberGithubName().equalsIgnoreCase(name)) {
                         userPoints = String.valueOf(d.getMemberPoints());
+                        member = d;
                     }
                 }
             }

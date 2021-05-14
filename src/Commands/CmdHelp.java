@@ -1,9 +1,12 @@
 package Commands;
 
+import Chart.LineChartCommits;
+import Chart.StackedBarChart;
 import Core.Config;
 import net.dv8tion.jda.api.EmbedBuilder;
-
+import Chart.*;
 import java.awt.*;
+import Web.*;
 
 public class CmdHelp {
     public static void cmdHelp(String channelID) {
@@ -17,8 +20,13 @@ public class CmdHelp {
                 .addField("/userstats {name}", "Checks various statistics for the user, including their point score (defaults to your stats)", true)
                 .addField("/leaderboard", "Shows a leaderboard with all the registered users and their point score", true)
                 .addField("/flip [points]", "Feelin' risky? Put your points on the line in a game of luck", true)
-                .addField("/shop", "Redeem rewards for your hard-earned points", true);
+                .addField("/shop", "Redeem rewards for your hard-earned points", true)
+                .setImage(StackedBarChart.stackedBarChart());
         Config.guild.getTextChannelById(channelID).sendMessage(embed.build()).queue();
         embed.clear();
+
+        Auth.authRequest("https://api.github.com/users/ladane");
+
+      //  System.out.println(NewToken.renew());
     }
 }
