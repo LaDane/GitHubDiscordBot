@@ -19,6 +19,10 @@ public class LoopMembers {
     public static void loopMembers(BotChannel membersChannel, BotChannel leaderboardChannel, BotChannel commitsCommandsChannel) {
 
         for (Member member : Config.members.getMembers()) {
+            try {Thread.sleep(3 * 1000L);}
+            catch (InterruptedException e) {Thread.currentThread().interrupt();}
+            System.out.println("Current member = "+ member.getMemberGithubName());
+
             String githubName = member.getMemberGithubName();
             String request1 = API.request("https://api.github.com/users/" + githubName);
             String request2 = API.request("https://api.github.com/search/commits?q=author:"+
@@ -27,11 +31,20 @@ public class LoopMembers {
 
             JsonObject api1 = (JsonObject) new JsonParser().parse(request1);
             JsonObject api2 = (JsonObject) new JsonParser().parse(request2);
+            System.out.println(api1);
 
             // API error handling
+            if (api1 == null) {
+                System.out.println("HERE");
+                break;
+            }
+
             try {api1.get("login").getAsString();}
             catch (Exception e) {
                 System.out.println("Member Github account is no longer reachable!");
+                e.printStackTrace();
+                System.out.println(e);
+                break;
 //                CmdRemove.removeMember();
             }
             if (api2.get("items").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString() == null)
