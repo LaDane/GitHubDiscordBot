@@ -7,6 +7,7 @@ import Web.API;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
 import java.awt.*;
@@ -57,16 +58,14 @@ public class CmdAdd {
                 if (channel.getChannelName().equals("members"))
                     membersChannel = channel;
             }
-            if (membersChannel == null) {
-                Cmd.sendErrorEmbed("Leaderboard channel does not exist! Cannot create new member", null, channelID);
-                return;
-            }
+            if (membersChannel == null) {Cmd.sendErrorEmbed("Leaderboard channel does not exist! Cannot create new member", null, channelID); return;}
             String membersChannelID = membersChannel.getChannelID();
             String githubCreatedAt = api1.get("created_at").getAsString()
-                    .replaceAll("T", "   ").replaceAll("Z","");
+                    .replaceAll("T", " ").replaceAll("Z","");
 
             // Create member object
             Member member = new Member(account,
+                    api1.get("html_url").getAsString(),
                     api1.get("url").getAsString(),
                     api1.get("avatar_url").getAsString(),
                     api1.get("public_repos").getAsString(),
@@ -87,13 +86,19 @@ public class CmdAdd {
             // Send embeds
             EmbedBuilder embed = member.memberEmbed("Added new user "+ member.getMemberGithubName());
             Config.guild.getTextChannelById(channelID).sendMessage(embed.build()).queue();
-            Config.guild.getTextChannelById(membersChannelID).sendMessage(embed.build()).queue((message -> {
-                memberDiscordMsgID = message.getId();
-            }));
+
+//            Consumer<? super Message> callbackMessage = (response) -> member.setMemberDiscordMsgID(response.getId());
+            Consumer<? super Message> callbackMessage = (response) -> setMemberMessageID(member, response.getId());
+            Config.guild.getTextChannelById(membersChannelID).sendMessage(embed.build()).queue(callbackMessage);
             embed.clear();
 
             member.setMemberDiscordMsgID(memberDiscordMsgID);
         }
+    }
+
+    private static void setMemberMessageID(Member member, String ID) {
+        member.setMemberDiscordMsgID(ID);
+        Config.members.serializeMembersSimple();
     }
 
 //    private static EmbedBuilder memberEmbed(Member member, String account, JsonObject api1) {

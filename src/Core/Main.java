@@ -3,7 +3,11 @@ package Core;
 import javax.security.auth.login.LoginException;
 
 import Bot.*;
+import BotLoop.BotLoop;
+import Chart.MemberBarChart;
 import Web.API;
+
+import java.time.LocalDate;
 
 
 public class Main {
@@ -11,12 +15,16 @@ public class Main {
     public static void main(String[] args) throws LoginException, InterruptedException {
         Bot.run();
         try {Config.jda.awaitReady();} catch (Exception e) {System.out.println("Bot not ready");}
+
         Config.allChannels.deserializeAllChannelsSimple();
+        Config.members.deserializeMembersSimple();
+//        Config.discordRoles.deserializeDiscordRolesSimple();
+        Config.botLogs.deserializeBotLogsSimple();
 
 //        SetupChannels.setupChannels();
 //        SetupRoles.setupRoles();
 
-//        BotLoop.startBotLoop();
+        BotLoop.startBotLoop();
 
         /* Change text channel name */
 //        BotChannel testChannel = new BotChannel("840211735100653608", "log");
@@ -33,7 +41,7 @@ public class Main {
 
 
         /* Load members from members.json*/
-        Config.members.deserializeMembersSimple();
+//        Config.members.deserializeMembersSimple();
 //        System.out.println(Config.members.getMembers().get(0).getMemberGithubName());
 //        System.out.println(Config.members.getMembers().get(1).getMemberGithubName());
 

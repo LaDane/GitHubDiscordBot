@@ -1,14 +1,17 @@
 package Commands;
 
-import Core.Config;
-import Member.Member;
-import Web.API;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.EmbedBuilder;
-import BotLoop.*;
 import java.awt.*;
 import java.util.ArrayList;
+
+import BotLoop.*;
+import Chart.MemberBarChart;
+import Core.Config;
+import Member.Member;
+import Web.API;
 
 public class CmdUserstats {
     public static void cmdUserstats(String msg, String memberID, String channelID) {
@@ -57,7 +60,8 @@ public class CmdUserstats {
                     .addField("Following", "[Following " + api.get("following").getAsString() + "](https://github.com/" + api.get("login").getAsString() + "?tab=following)", true)
                     .addField("Account created", api.get("created_at").getAsString().replaceAll("T", "   ").replaceAll("Z",""), true)
                     .addField("Points", userPoints, true)
-                    .setImage(Chart.createMemberBarChart(member,10,20,30,40,50,60,70));
+                    .setImage(MemberBarChart.memberBarChart(member));
+//                    .setImage(Chart.createMemberBarChart(member,10,20,30,40,50,60,70));
             Config.guild.getTextChannelById(channelID).sendMessage(embed.build()).queue();
             embed.clear();
         } catch (Exception e) {

@@ -1,4 +1,4 @@
-package BotLoop;
+package Chart;
 import Core.Config;
 import Member.Member;
 import io.quickchart.QuickChart;
@@ -17,9 +17,14 @@ public class Chart {
         int blue = Color.decode(memberColor).getBlue();
 
         System.out.println( red + "," + green + "," + blue);
-        System.out.println((red+100>255 ? 255 : red+100) + "," +
-                (green+100>255 ? 255 : green+100) + "," +
-                (blue+100>255 ? 255 : blue+100));
+        System.out.println((Math.min(red + 100, 255)) + "," +
+                (Math.min(green + 100, 255)) + "," +
+                (Math.min(blue + 100, 255)));
+
+//        System.out.println((red+100>255 ? 255 : red+100) + "," +
+//                (green+100>255 ? 255 : green+100) + "," +
+//                (blue+100>255 ? 255 : blue+100));
+
 //        return new Color(
 //                Integer.valueOf(memberColor.substring( 1, 3 ), 16),
 //                Integer.valueOf(memberColor.substring( 3, 5 ), 16),
@@ -36,9 +41,9 @@ public class Chart {
                 "      {" +
                 "        label: 'Commits'," +
                 "        backgroundColor: 'rgb(" + red + "," + green + "," + blue + ")'," +
-                "        borderColor: 'rgb(" + (red+100>255 ? 255 : red+100) + "," +
-                                               (green+100>255 ? 255 : green+100) + "," +
-                                               (blue+100>255 ? 255 : blue+100) + ")'," +
+                "        borderColor: 'rgb(" + (Math.min(red + 100, 255)) + "," +
+                                               (Math.min(green + 100, 255)) + "," +
+                                               (Math.min(blue + 100, 255)) + ")'," +
                 "        borderWidth: 2," +
                 "        data: ["+day1Commits+", "+day2Commits+", "+day3Commits+", "+day4Commits+", "+day5Commits+", "+day6Commits+", "+day7Commits+"]," +
                 "      }" +

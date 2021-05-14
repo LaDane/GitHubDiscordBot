@@ -1,5 +1,6 @@
 package Message;
 
+import BotChannel.BotChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -24,11 +25,19 @@ public class MessageListener extends ListenerAdapter {
         if (memberID.equals(Bot.bot.getBotID()))
             return;
 
-        Config.members.deserializeMembersSimple();
+        BotChannel commitsCommandsChannel = null;
+        for (BotChannel channel : Config.allChannels.getAllChannels()) {
+            if (channel.getChannelName().equals("commits-commands"))
+                commitsCommandsChannel = channel;
+        }
+        if (commitsCommandsChannel == null || !channelID.equals(commitsCommandsChannel.getChannelID()))
+            return;
 
-        String cmd = message.split(" ")[0].toLowerCase();
+        Config.members.deserializeMembersSimple();
+        Config.allChannels.deserializeAllChannelsSimple();
 
         //Switch
+        String cmd = message.split(" ")[0].toLowerCase();
         switch (cmd) {
             case ("/help") -> CmdHelp.cmdHelp(channelID);
             case ("/add") -> CmdAdd.cmdAdd(message, memberID, channelID);
