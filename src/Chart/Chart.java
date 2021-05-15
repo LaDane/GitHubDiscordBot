@@ -16,7 +16,7 @@ public class Chart {
         int green = Color.decode(memberColor).getGreen();
         int blue = Color.decode(memberColor).getBlue();
 
-        System.out.println( red + "," + green + "," + blue);
+        System.out.println(red + "," + green + "," + blue);
         System.out.println((Math.min(red + 100, 255)) + "," +
                 (Math.min(green + 100, 255)) + "," +
                 (Math.min(blue + 100, 255)));
@@ -42,17 +42,17 @@ public class Chart {
                 "        label: 'Commits'," +
                 "        backgroundColor: 'rgb(" + red + "," + green + "," + blue + ")'," +
                 "        borderColor: 'rgb(" + (Math.min(red + 100, 255)) + "," +
-                                               (Math.min(green + 100, 255)) + "," +
-                                               (Math.min(blue + 100, 255)) + ")'," +
+                (Math.min(green + 100, 255)) + "," +
+                (Math.min(blue + 100, 255)) + ")'," +
                 "        borderWidth: 2," +
-                "        data: ["+day1Commits+", "+day2Commits+", "+day3Commits+", "+day4Commits+", "+day5Commits+", "+day6Commits+", "+day7Commits+"]," +
+                "        data: [" + day1Commits + ", " + day2Commits + ", " + day3Commits + ", " + day4Commits + ", " + day5Commits + ", " + day6Commits + ", " + day7Commits + "]," +
                 "      }" +
                 "    ]," +
                 "  }," +
                 "  options: {" +
                 "    title: {" +
                 "      display: true," +
-                "      text: 'Commits for "+member.getMemberGithubName()+" within the last 7 days'," +
+                "      text: 'Commits for " + member.getMemberGithubName() + " within the last 7 days'," +
                 "      fontColor: '#ffffff'" +
                 "    }," +
                 "    legend: {" +
@@ -92,10 +92,11 @@ public class Chart {
         return chart.getShortUrl();
 //        System.out.println("Bar chart: " + chart.getShortUrl());
     }
+
     public static String createStackedBarChart(int day1LinesAdded, int day1LinesRemoved, int day2LinesAdded, int day2LinesRemoved,
-                                              int day3LinesAdded, int day3LinesRemoved, int day4LinesAdded, int day4LinesRemoved,
-                                              int day5LinesAdded, int day5LinesRemoved, int day6LinesAdded, int day6LinesRemoved,
-                                              int day7LinesAdded, int day7LinesRemoved){
+                                               int day3LinesAdded, int day3LinesRemoved, int day4LinesAdded, int day4LinesRemoved,
+                                               int day5LinesAdded, int day5LinesRemoved, int day6LinesAdded, int day6LinesRemoved,
+                                               int day7LinesAdded, int day7LinesRemoved) {
         QuickChart chart = new QuickChart();
         chart.setWidth(500);
         chart.setHeight(300);
@@ -107,12 +108,12 @@ public class Chart {
                 "           {" +
                 "        label: 'Lines added'," +
                 "        backgroundColor: 'rgb(0, 102, 204)'," +
-                "        data: ["+day1LinesAdded+", "+day2LinesAdded+", "+day3LinesAdded+", "+day4LinesAdded+", "+day5LinesAdded+", "+day6LinesAdded+", "+day7LinesAdded+"]," +
+                "        data: [" + day1LinesAdded + ", " + day2LinesAdded + ", " + day3LinesAdded + ", " + day4LinesAdded + ", " + day5LinesAdded + ", " + day6LinesAdded + ", " + day7LinesAdded + "]," +
                 "      }," +
                 "      {" +
                 "        label: 'Lines removed'," +
                 "        backgroundColor: 'rgb(255, 99, 132)'," +
-                "          data: ["+day1LinesRemoved+", "+day2LinesRemoved+", "+day3LinesRemoved+", "+day4LinesRemoved+", "+day5LinesRemoved+", "+day6LinesRemoved+", "+day7LinesRemoved+"]," +
+                "          data: [" + day1LinesRemoved + ", " + day2LinesRemoved + ", " + day3LinesRemoved + ", " + day4LinesRemoved + ", " + day5LinesRemoved + ", " + day6LinesRemoved + ", " + day7LinesRemoved + "]," +
                 "      }," +
                 "    ]," +
                 "  }," +
@@ -137,6 +138,7 @@ public class Chart {
         );
         return chart.getShortUrl();
     }
+
     public static String createLineChartCommits(int day1Commits, int day2Commits, int day3Commits, int day4Commits, int day5Commits, int day6Commits, int day7Commits) {
         QuickChart chart = new QuickChart();
         chart.setWidth(500);
@@ -150,7 +152,7 @@ public class Chart {
                 "        label: 'Commits'," +
                 "        backgroundColor: 'rgb(255, 99, 132)'," +
                 "        borderColor: 'rgb(255, 99, 132)'," +
-                "        data: ["+day1Commits+", "+day2Commits+", "+day3Commits+", "+day4Commits+", "+day5Commits+", "+day6Commits+", "+day7Commits+"]," +
+                "        data: [" + day1Commits + ", " + day2Commits + ", " + day3Commits + ", " + day4Commits + ", " + day5Commits + ", " + day6Commits + ", " + day7Commits + "]," +
                 "        fill: false," +
                 "      }," +
                 "    ]," +
@@ -178,7 +180,7 @@ public class Chart {
         createRadarChart(linesAdded, linesRemoved, totalCommits, pointsAcquired, botActiveMessages);
      */
 
-    private static void createRadarChart(int[] linesAdded, int[] linesRemoved, int[] totalCommits, int[] pointsAcquired, int[] botActiveMessages){
+    private static void createRadarChart(int[] linesAdded, int[] linesRemoved, int[] totalCommits, int[] pointsAcquired, int[] botActiveMessages) {
         QuickChart chart = new QuickChart();
         chart.setWidth(500);
         chart.setHeight(300);
@@ -199,13 +201,13 @@ public class Chart {
                 "        \"backgroundColor\": \"rgba(255, 99, 132, 0.5)\",\n" +
                 "        \"borderColor\": \"rgb(255, 99, 132)\",\n" +
                 "        \"data\": [\n" +
-                "          "+linesAdded[0]+",\n" +
-                "          "+linesAdded[1]+",\n" +
-                "          "+linesAdded[2]+",\n" +
-                "          "+linesAdded[3]+",\n" +
-                "          "+linesAdded[4]+",\n" +
-                "          "+linesAdded[5]+",\n" +
-                "          "+linesAdded[6]+"\n" +
+                "          " + linesAdded[0] + ",\n" +
+                "          " + linesAdded[1] + ",\n" +
+                "          " + linesAdded[2] + ",\n" +
+                "          " + linesAdded[3] + ",\n" +
+                "          " + linesAdded[4] + ",\n" +
+                "          " + linesAdded[5] + ",\n" +
+                "          " + linesAdded[6] + "\n" +
                 "        ],\n" +
                 "        \"label\": \"Lines added\"\n" +
                 "      },\n" +
@@ -213,13 +215,13 @@ public class Chart {
                 "        \"backgroundColor\": \"rgba(255, 159, 64, 0.5)\",\n" +
                 "        \"borderColor\": \"rgb(255, 159, 64)\",\n" +
                 "        \"data\": [\n" +
-                "          "+linesRemoved[0]+",\n" +
-                "          "+linesRemoved[1]+",\n" +
-                "          "+linesRemoved[2]+",\n" +
-                "          "+linesRemoved[3]+",\n" +
-                "          "+linesRemoved[4]+",\n" +
-                "         "+linesRemoved[5]+",\n" +
-                "         "+linesRemoved[6]+"\n" +
+                "          " + linesRemoved[0] + ",\n" +
+                "          " + linesRemoved[1] + ",\n" +
+                "          " + linesRemoved[2] + ",\n" +
+                "          " + linesRemoved[3] + ",\n" +
+                "          " + linesRemoved[4] + ",\n" +
+                "         " + linesRemoved[5] + ",\n" +
+                "         " + linesRemoved[6] + "\n" +
                 "        ],\n" +
                 "        \"label\": \"Lines removed\",\n" +
                 "        \"fill\": \"-1\"\n" +
@@ -228,13 +230,13 @@ public class Chart {
                 "        \"backgroundColor\": \"rgba(255, 205, 86, 0.5)\",\n" +
                 "        \"borderColor\": \"rgb(255, 205, 86)\",\n" +
                 "        \"data\": [\n" +
-                "          "+totalCommits[0]+",\n" +
-                "          "+totalCommits[1]+",\n" +
-                "          "+totalCommits[2]+",\n" +
-                "          "+totalCommits[3]+",\n" +
-                "          "+totalCommits[4]+",\n" +
-                "          "+totalCommits[5]+",\n" +
-                "          "+totalCommits[6]+"\n" +
+                "          " + totalCommits[0] + ",\n" +
+                "          " + totalCommits[1] + ",\n" +
+                "          " + totalCommits[2] + ",\n" +
+                "          " + totalCommits[3] + ",\n" +
+                "          " + totalCommits[4] + ",\n" +
+                "          " + totalCommits[5] + ",\n" +
+                "          " + totalCommits[6] + "\n" +
                 "        ],\n" +
                 "        \"label\": \"Total commits\",\n" +
                 "        \"fill\": 1\n" +
@@ -243,13 +245,13 @@ public class Chart {
                 "        \"backgroundColor\": \"rgba(75, 192, 192, 0.5)\",\n" +
                 "        \"borderColor\": \"rgb(75, 192, 192)\",\n" +
                 "        \"data\": [\n" +
-                "         "+pointsAcquired[0]+",\n" +
-                "          "+pointsAcquired[1]+",\n" +
-                "          "+pointsAcquired[2]+",\n" +
-                "          "+pointsAcquired[3]+",\n" +
-                "          "+pointsAcquired[4]+",\n" +
-                "          "+pointsAcquired[5]+",\n" +
-                "          "+pointsAcquired[6]+"\n" +
+                "         " + pointsAcquired[0] + ",\n" +
+                "          " + pointsAcquired[1] + ",\n" +
+                "          " + pointsAcquired[2] + ",\n" +
+                "          " + pointsAcquired[3] + ",\n" +
+                "          " + pointsAcquired[4] + ",\n" +
+                "          " + pointsAcquired[5] + ",\n" +
+                "          " + pointsAcquired[6] + "\n" +
                 "        ],\n" +
                 "        \"label\": \"Points acquired\",\n" +
                 "        \"fill\": false\n" +
@@ -258,13 +260,13 @@ public class Chart {
                 "        \"backgroundColor\": \"rgba(54, 162, 235, 0.5)\",\n" +
                 "        \"borderColor\": \"rgb(54, 162, 235)\",\n" +
                 "        \"data\": [\n" +
-                "          "+botActiveMessages[0]+",\n" +
-                "          "+botActiveMessages[1]+",\n" +
-                "          "+botActiveMessages[2]+",\n" +
-                "          "+botActiveMessages[3]+",\n" +
-                "          "+botActiveMessages[4]+",\n" +
-                "          "+botActiveMessages[5]+",\n" +
-                "          "+botActiveMessages[6]+"\n" +
+                "          " + botActiveMessages[0] + ",\n" +
+                "          " + botActiveMessages[1] + ",\n" +
+                "          " + botActiveMessages[2] + ",\n" +
+                "          " + botActiveMessages[3] + ",\n" +
+                "          " + botActiveMessages[4] + ",\n" +
+                "          " + botActiveMessages[5] + ",\n" +
+                "          " + botActiveMessages[6] + "\n" +
                 "        ],\n" +
                 "        \"label\": \"Bot active messages\",\n" +
                 "        \"fill\": \"-1\"\n" +
@@ -295,7 +297,88 @@ public class Chart {
 
     }
 
-    // return chart.getUrl();
+    private static void createDoughnutChart(int pointsAcquired, int pointsFlipped, int pointsLost) {
+        QuickChart chart = new QuickChart();
+        chart.setWidth(500);
+        chart.setHeight(300);
+        chart.setConfig("{" +
+                "  type: 'doughnut'," +
+                "  data: {" +
+                "    datasets: [" +
+                "      {" +
+                "        data: [" + pointsAcquired + ", " + pointsFlipped + " , " + pointsLost + "]," +
+                "      }," +
+                "      {" +
+                "        backgroundColor: [" +
+                "          'rgb(255, 99, 132)'," +
+                "          'rgb(255,255,0)'," +
+                "          'rgb(54, 162, 235)'," +
+                "        ]," +
+                "        label: 'Points'," +
+                "      }," +
+                "    ]," +
+                "    labels: ['Points Acquired','Points Flipped', 'Points Lost']," +
+                "  }," +
+                "  options: {" +
+                "    title: {" +
+                "      display: true," +
+                "      text: 'Chart.js Doughnut Chart'," +
+                "    }," +
+                "  }," +
+                "}");
+
+        // Print the chart image URL
+        System.out.println(chart.getUrl());
+
+    }
+
+    public static void createGaugeChart(int botMessages, int userMessages) {
+        QuickChart chart = new QuickChart();
+        chart.setWidth(500);
+        chart.setHeight(300);
+        chart.setConfig("{" +
+                "  \"type\": \"doughnut\"," +
+                "  \"data\": {" +
+                "    \"datasets\": [{" +
+                "      \"label\": \"Messages\"," +
+                "      data: [" + botMessages + ", " + userMessages + "]," +
+                "      }," +
+                "      {" +
+                "      \"backgroundColor\": [" +
+                "        \"rgba(255, 0, 0,1)\"," +
+                "        \"rgba(0, 0, 0, 0.3)\"" +
+                "      ]," +
+                "      \"textcolor\":[\"#000555\",\"#555555\"]," +
+                "      \"borderWidth\": 0," +
+                "    }] " +
+                "  }," +
+                "  \"options\": {" +
+                "    \"rotation\": Math.PI," +
+                "    \"circumference\": Math.PI," +
+                "    \"cutoutPercentage\": 75," +
+                "    \"plugins\": {" +
+                "      \"datalabels\": { \"display\": false }," +
+                "      \"doughnutlabel\": {" +
+                "        \"labels\": [" +
+                "          {" +
+                "            \"text\": \"\\nBot active messages\"," +
+                "            \"color\": \"#aaa\"," +
+                "            \"font\": {" +
+                "              \"size\": \"23\"" +
+                "            }," +
+                "          }," +
+                "          {" +
+                "            \"text\": \"\\n90%\"," +
+                "            \"font\": {" +
+                "              \"size\": \"35\"" +
+                "            }," +
+                "          }," +
+                "        ]" +
+                "      }" +
+                "    }" +
+                "  }" +
+                "}");
 
 
     }
+}

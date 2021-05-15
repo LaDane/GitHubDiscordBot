@@ -19,15 +19,20 @@ public class EditMessage {
         }));
     }
 
-    public static void editMessage(long messageShopID) {
-        TextChannel channel = Config.guild.getTextChannelById(botTestChannelID);
+    public static void editMessage(long messageShopID,String channelID) {
+        TextChannel channel = Config.guild.getTextChannelById(channelID);
         channel.retrieveMessageById(messageShopID).queue((message) -> {
             // use the message here, its an async callback
-            message.addReaction("U+1F7E6").queue();
-            message.addReaction("U+1F7E5").queue();
-            message.addReaction("U+1F7E9").queue();
+            message.addReaction("U+1F7EB").queue();
+            message.addReaction("U+1F7E8").queue();
             message.addReaction("U+1F7E7").queue();
-            System.out.println("Message Content: " + message.getContentDisplay());
+            message.addReaction("U+1F7E6").queue();
+            message.addReaction("U+1F7E9").queue();
+            message.addReaction("U+1F7E5").queue();
+            message.addReaction("U+1F7EA").queue();
+            message.addReaction("U+2B1C").queue();
+            message.addReaction("U+2B1B").queue();
+           // System.out.println("Message Content: " + message.getContentDisplay());
         }, (failure) -> {
             // if the retrieve request failed this will be called (also async)
             if (failure instanceof ErrorResponseException) {

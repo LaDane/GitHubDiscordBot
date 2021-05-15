@@ -5,6 +5,7 @@ import javax.security.auth.login.LoginException;
 import Bot.*;
 import BotLoop.BotLoop;
 import Chart.MemberBarChart;
+import Chart.PieChart;
 import Web.API;
 import Web.Auth;
 
@@ -26,7 +27,11 @@ public class Main {
 //        SetupChannels.setupChannels();
 //        SetupRoles.setupRoles();
 
+
+
+
         BotLoop.startBotLoop();
+
 
         /* Change text channel name */
 //        BotChannel testChannel = new BotChannel("840211735100653608", "log");

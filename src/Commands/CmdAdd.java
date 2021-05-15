@@ -2,7 +2,7 @@ package Commands;
 
 import BotChannel.BotChannel;
 import Core.Config;
-import Member.Member;
+import Member.*;
 import Web.API;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

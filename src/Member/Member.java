@@ -31,15 +31,16 @@ public class Member {
     private int memberLinesAdded;
     private int memberLinesRemoved;
     private ArrayList<String> memberItemsOwned;
+    private ArrayList<RepoStats> memberRepoStats;
 
     public Member(String memberGithubName, String memberGithubURL, String memberGithubApiURL,
                   String memberAvatarURL, String memberGithubPublicRepos, String memberGithubPublicReposURL,
                   String memberGithubFollowers, String memberGithubFollowersURL,
                   String memberGithubFollowing, String memberGithubFollowingURL,
                   String memberGithubCreatedAt, String memberLastCommit, String memberDiscordID,
-                  String memberDiscordMsgID, String memberColor,
-                  int memberPoints, int memberCommits, int memberLinesAdded,
-                  int memberLinesRemoved, ArrayList<String> memberItemsOwned) {
+                  String memberDiscordMsgID, String memberColor, int memberPoints,
+                  int memberCommits, int memberLinesAdded, int memberLinesRemoved,
+                  ArrayList<String> memberItemsOwned) {
         this.memberGithubName = memberGithubName;
         this.memberGithubURL = memberGithubURL;
         this.memberGithubApiURL = memberGithubApiURL;
@@ -60,6 +61,7 @@ public class Member {
         this.memberLinesAdded = memberLinesAdded;
         this.memberLinesRemoved = memberLinesRemoved;
         this.memberItemsOwned = memberItemsOwned;
+        this.memberRepoStats = new ArrayList<RepoStats>();
     }
 
     public String getMemberGithubName() {return memberGithubName;}
@@ -81,6 +83,7 @@ public class Member {
     public int getMemberLinesAdded() {return memberLinesAdded;}
     public int getMemberLinesRemoved() {return memberLinesRemoved;}
     public ArrayList<String> getMemberItemsOwned() {return memberItemsOwned;}
+    public ArrayList<RepoStats> getMemberRepoStats() {return memberRepoStats;}
 
     public void setMemberGithubPublicRepos(String repos) {memberGithubPublicRepos = repos;}
     public void setMemberGithubFollowers(String followers) {memberGithubFollowers = followers;}
@@ -94,7 +97,28 @@ public class Member {
     public void setMemberLinesRemoved(int lines) {memberLinesRemoved = lines;}
 
     public void addMemberItemOwned(String itemName) {memberItemsOwned.add(itemName);}
+    public void addToMemberRepoStats(RepoStats stats) {memberRepoStats.add(stats);}
+    public void resetMemberRepoStats() {memberRepoStats.clear();}
 
+
+    public void updateMemberRepoStats(String repoLanguage) {
+//        Config.members.deserializeMembersSimple();
+
+        boolean languageExistsInRepoStats = false;
+        for (RepoStats repoStats : memberRepoStats) {
+            if (repoStats.getRepoLanguage().matches(repoLanguage)) {
+                repoStats.setRepoLanguageAmount(repoStats.getRepoLanguageAmount() + 1);
+                languageExistsInRepoStats = true;
+                System.out.println(memberGithubName +" already has "+ repoLanguage +" in their repoStats. + 1");
+            }
+        }
+        if (!languageExistsInRepoStats) {
+            RepoStats repoStats = new RepoStats(repoLanguage, 1);
+            addToMemberRepoStats(repoStats);
+            System.out.println(memberGithubName +" doesnt have "+ repoLanguage +" in their repoStats, adding new entry!");
+        }
+        Config.members.serializeMembersSimple();
+    }
 
     public EmbedBuilder memberEmbed(String title) {
         EmbedBuilder embed = new EmbedBuilder().setColor(Color.decode(memberColor));

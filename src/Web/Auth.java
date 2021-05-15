@@ -58,11 +58,11 @@ public class Auth {
 
 
 
-
+/*
     @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id and secret
-        /*
+
         final String clientId = "id here";
         final String clientSecret = "secret here";
         final String secretState = "secret" + new Random().nextInt(999_999);
@@ -116,6 +116,6 @@ public class Auth {
         }
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
-         */
     }
+ */
 }

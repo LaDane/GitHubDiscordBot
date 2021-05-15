@@ -1,6 +1,7 @@
 package Core;
 
 
+import PLang.PLangs;
 import Web.App;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -25,6 +26,7 @@ public class Config {
     public static DiscordRoles discordRoles = new DiscordRoles(new ArrayList<DiscordRole>());
     public static BotLogs botLogs = new BotLogs();
     public static App app = new App("");
+    public static PLangs pLangs = new PLangs();
 
 //    public static void config() {
 //        allChannels = new AllChannels(new ArrayList<BotChannel>());

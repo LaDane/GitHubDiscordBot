@@ -1,7 +1,9 @@
 package Message;
 
 import BotChannel.BotChannel;
+import Member.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import Bot.*;
@@ -55,6 +57,41 @@ public class MessageListener extends ListenerAdapter {
         if (message.contains("/recent")) CmdRecent.cmdRecent(message, memberID, channelID);
         */
     }
+    @Override
+    public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent event) {
+        if (event.getMember().getUser().equals(event.getJDA().getSelfUser())) {
+            return;
+        }
+        BotChannel leaderBoardChannel = null;
+        for (BotChannel channel : Config.allChannels.getAllChannels()) {
+            if (channel.getChannelName().equals("leaderboard"))
+                leaderBoardChannel = channel;
+        }
+        String leaderBoardChannelID = leaderBoardChannel.getChannelID();
+        if (event.getChannel().getId().equals(leaderBoardChannelID)) {
+            String memberID = event.getMember().getUser().getId();
+            System.out.println("TESTT WORKING!!!!");
+            String reactionEmojiName = event.getReactionEmote().getName();
+            Member reactionMember = null;
+            for (Member member : Config.members.getMembers()) {
+                if (member.getMemberDiscordID().equals(memberID)){
+                    reactionMember = member;
+                }
+            }
+            switch (reactionEmojiName) {
+                case ("\uD83D\uDFEB") -> CmdShop.productBuy(reactionMember,"21666",100);
+                case ("\uD83D\uDFE8") -> CmdShop.productBuy(reactionMember,"1222",100);
+                case ("\uD83D\uDFE7") -> CmdShop.productBuy(reactionMember,"1333",100);
+                case ("\uD83D\uDFE6") -> CmdShop.productBuy(reactionMember,"1444",100);
+                case ("\uD83D\uDFE9") -> CmdShop.productBuy(reactionMember,"16666",100);
+                case ("\uD83D\uDFE5") -> CmdShop.productBuy(reactionMember,"15555",100);
+                case ("\uD83D\uDFEA") -> CmdShop.productBuy(reactionMember,"17777",100);
+                case ("⬜") -> CmdShop.productBuy(reactionMember,"1777",100);
+                case ("⬛") -> CmdShop.productBuy(reactionMember,"14545",100);
+            }
+        }
+    }
+
 }
 
 /*

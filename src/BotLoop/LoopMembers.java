@@ -6,6 +6,7 @@ import Core.Config;
 import Member.Member;
 import Web.API;
 import Chart.MemberBarChart;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -25,46 +26,51 @@ public class LoopMembers {
             System.out.println("Current member = "+ member.getMemberGithubName());
 
             String githubName = member.getMemberGithubName();
-            String request1 = API.request("https://api.github.com/users/" + githubName);
+            String request1 = API.request("https://api.github.com/users/"+ githubName);
             String request2 = API.request("https://api.github.com/search/commits?q=author:"+
                             githubName +"&sort=author-date&order=desc&page=1",
                     "application/vnd.github.cloak-preview");
+            String requestRepo = API.request("https://api.github.com/users/"+ githubName +"/repos");
 
             JsonObject api1 = (JsonObject) new JsonParser().parse(request1);
             JsonObject api2 = (JsonObject) new JsonParser().parse(request2);
+            JsonArray apiRepo = (JsonArray) new JsonParser().parse(requestRepo);
 
             // API error handling
             try {
-                if (api1.get("message").getAsString().contains("API rate limit exceeded") || api2.get("message").getAsString().contains("API rate limit exceeded")) {
+                if (api1.get("message").getAsString().contains("API rate limit exceeded") ||
+                        api2.get("message").getAsString().contains("API rate limit exceeded")) {
                     System.out.println("RATE LIMITED! Sleeping for 3 minutes");
                     try {Thread.sleep(180 * 1000L);}
                     catch (InterruptedException e) {Thread.currentThread().interrupt();}
                     return;
                 }
             } catch (Exception e) {}
-
-//            if (api1 == null) {
-//                System.out.println("Error: api1 = null");
-//                break;
-//            }
-//
+            if (api1 == null) {
+                break;
+            }
             try {api1.get("login").getAsString();}
             catch (Exception e) {
                 System.out.println("Error: Member Github account is no longer reachable!");
 //                e.printStackTrace();
-//                System.out.println(e);
 //                CmdRemove.removeMember();     // TODO: FINISH -> GET GITHUB ACCOUNT NAME + SOMETHING ELSE
                 break;
             }
-//            if (api2.get("items").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString() == null)
-//                break;
 
-            // Update repos / followers / following
+            // Update repos / followers / following / repo stats
             String lastUpdate = api2.get("items").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
 
             member.setMemberGithubPublicRepos(api1.get("public_repos").getAsString());
             member.setMemberGithubFollowers(api1.get("followers").getAsString());
             member.setMemberGithubFollowing(api1.get("following").getAsString());
+
+            member.resetMemberRepoStats();
+            for (int i = 0; i < apiRepo.size(); i++) {
+                String repoLanguage = apiRepo.get(i).getAsJsonObject().get("language").getAsString();
+                member.updateMemberRepoStats(repoLanguage);
+                System.out.println(member.getMemberGithubName() + "\t - "+ repoLanguage);
+            }
+
             Config.members.serializeMembersSimple();
 
             if (!lastUpdate.equals(member.getMemberLastCommit())) {
