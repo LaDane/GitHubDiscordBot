@@ -20,11 +20,11 @@ public class CmdFlip {
         if (Math.random() < 0.5) {
             embed.setColor(Color.red).setTitle("Better luck next time!").addField("You lost " + points + " point" + (points != 1 ? "s" : ""), "\u200B", false);
             member.setMemberPoints(member.getMemberPoints() - points);
-            Config.botLogs.updateBotLogs(0,0,0,0,0,points,1,1);
+            Config.botLogs.updateBotLogs(0,0,0,0,0,points,0,0);
         } else {
             embed.setColor(Color.green).setTitle("Congratulations!").addField("You won " + points + " point" + (points != 1 ? "s" : ""), "\u200B", false);
             member.setMemberPoints(member.getMemberPoints() + points);
-            Config.botLogs.updateBotLogs(0,0,0,0,points,0,1,1);
+            Config.botLogs.updateBotLogs(0,0,0,0,points,0,0,0);
         }
         Config.members.serializeMembersSimple();
         Config.guild.getTextChannelById(channelID).sendMessage(embed.build()).queue();

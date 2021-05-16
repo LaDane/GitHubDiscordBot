@@ -27,7 +27,7 @@ public class Members {
             gson.toJson(Config.members, writer);
             writer.flush();
             writer.close();
-            System.out.println("Saved to Members.json");
+            System.out.println("\t\tSaved to Members.json");
         } catch (IOException e) {
             e.printStackTrace();
         }

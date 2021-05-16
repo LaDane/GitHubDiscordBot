@@ -17,7 +17,7 @@ public class Main {
         Config.app.deserializeAppSimple();
         Config.allChannels.deserializeAllChannelsSimple();
         Config.members.deserializeMembersSimple();
-//        Config.discordRoles.deserializeDiscordRolesSimple();
+//        Config.discordRoles.deserializeDiscordRolesSimple();      // were not using roles ATM.
         Config.botLogs.deserializeBotLogsSimple();
         Config.pLangs.deserializePLangsSimple();
         Config.botMsg.deserializeBotLogsSimple();

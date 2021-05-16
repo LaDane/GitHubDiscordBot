@@ -36,6 +36,13 @@ public class BotLogs {
             latestBotLog.setLogCommits(latestBotLog.getLogCommits() + commits);
             latestBotLog.setLogLinesAdded(latestBotLog.getLogLinesAdded() + linesAdd);
             latestBotLog.setLogLinesRemoved(latestBotLog.getLogLinesRemoved() + linesRem);
+
+            latestBotLog.setLogPointsGiven(latestBotLog.getLogPointsGiven() + pointsGiven);
+            latestBotLog.setLogPointsWon(latestBotLog.getLogPointsWon() + pointsWon);
+            latestBotLog.setLogPointsLost(latestBotLog.getLogPointsLost() + pointsLost);
+
+            latestBotLog.setLogMessages(latestBotLog.getLogMessages() + msg);
+            latestBotLog.setLogMessagesBot(latestBotLog.getLogMessagesBot() + msgBot);
         }
         serializeBotLogsSimple();
     }

@@ -20,13 +20,13 @@ public class LoopMembers {
     public static void loopMembers(BotChannel membersChannel, BotChannel commitsCommandsChannel) {
 
         // deserialize must be done outside of for loop in order to not replace current config.members member
-        Config.members.deserializeMembersSimple();
+//        Config.members.deserializeMembersSimple();            // we dont need to load data here
 
         for (Member member : Config.members.getMembers()) {
 //            Config.members.deserializeMembersSimple();
             try {Thread.sleep(15 * 1000L);}
             catch (InterruptedException e) {Thread.currentThread().interrupt();}
-            System.out.println("Current member = "+ member.getMemberGithubName());
+            System.out.println("\tCurrent member = "+ member.getMemberGithubName());
 
             String githubName = member.getMemberGithubName();
             String request1 = API.request("https://api.github.com/users/"+ githubName);
@@ -66,10 +66,17 @@ public class LoopMembers {
 
             // Member repo stats
             member.resetMemberRepoStats();
-            for (int i = 0; i < apiRepo.size(); i++) {
-                String repoLanguage = apiRepo.get(i).getAsJsonObject().get("language").getAsString();
-                member.updateMemberRepoStats(repoLanguage);
+            if (apiRepo.size() != 0) {
+                for (int i = 0; i < apiRepo.size(); i++) {
+                    try {
+                        String repoLanguage = apiRepo.get(i).getAsJsonObject().get("language").getAsString();
+                        member.updateMemberRepoStats(repoLanguage);
+                    } catch (Exception e) {
+                        System.out.println("ERROR: Failed to get a programming language from "+ member.getMemberGithubName() +" repos!");
+                    }
+                }
             }
+
 
 
             // New commit detected!

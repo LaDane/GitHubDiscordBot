@@ -89,5 +89,7 @@ public class LoopMessages {
                 System.out.println("ERROR: Failed to update line chart message!");
             }
         });
+
+        System.out.println("Updated bot messages");
     }
 }
