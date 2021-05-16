@@ -2,6 +2,8 @@ package BotLoop;
 
 import BotChannel.BotChannel;
 import Core.Config;
+import Member.*;
+import Chart.*;
 
 public class BotLoop {
 
@@ -23,7 +25,8 @@ public class BotLoop {
         while(true) {
             try {
 
-                LoopMembers.loopMembers(membersChannel, leaderboardChannel, commitsCommandsChannel);
+                LoopMembers.loopMembers(membersChannel, commitsCommandsChannel);
+//                LoopMessages.loopMessages(leaderboardChannel, graphsChannel);
 
                 System.out.println("Pausing for '"+ sleepTime +"' seconds");
                 Thread.sleep(sleepTime * 1000L);

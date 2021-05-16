@@ -1,6 +1,7 @@
 package Core;
 
 
+import BotMessage.BotMsg;
 import PLang.PLangs;
 import Web.App;
 import net.dv8tion.jda.api.JDA;
@@ -14,7 +15,6 @@ import Member.Member;
 import Member.Members;
 import Role.DiscordRole;
 import Role.DiscordRoles;
-import BotLog.BotLog;
 import BotLog.BotLogs;
 
 public class Config {
@@ -27,6 +27,7 @@ public class Config {
     public static BotLogs botLogs = new BotLogs();
     public static App app = new App("");
     public static PLangs pLangs = new PLangs();
+    public static BotMsg botMsg = new BotMsg();
 
 //    public static void config() {
 //        allChannels = new AllChannels(new ArrayList<BotChannel>());

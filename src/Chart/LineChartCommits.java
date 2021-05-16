@@ -2,14 +2,8 @@ package Chart;
 
 import Core.Config;
 import io.quickchart.QuickChart;
-
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
-
-
-
 
 
 public class LineChartCommits {
@@ -19,7 +13,7 @@ public class LineChartCommits {
 
         for (int i = 0; i < last7dates.length; i++) {
             last7dates[i] = LocalDate.now().minusDays(i).toString();
-            int[] logData = Config.botLogs.getBotLogData(LocalDate.parse(last7dates[i]));
+            int[] logData = Config.botLogs.getBotLogCommitsLines(LocalDate.parse(last7dates[i]));
             dayCommits[i] = logData[0];
             last7dates[i] = LocalDate.now().minusDays(i).format(DateTimeFormatter.ofPattern("MMM dd"));
         }

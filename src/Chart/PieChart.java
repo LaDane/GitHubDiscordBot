@@ -39,7 +39,7 @@ public class PieChart {
             languages[i] = totalRepoStats.get(i).getRepoLanguage();
             languageAmount[i] = totalRepoStats.get(i).getRepoLanguageAmount();
             languageHEX[i] = Config.pLangs.getColorByLanguage(languages[i]);
-            System.out.println(languages[i] +" "+ languageAmount[i] +" "+ languageHEX[i]);
+//            System.out.println("Language: "+ languages[i] +"\ttAmount: "+ languageAmount[i] +"\t\tHEX: "+ languageHEX[i]);
         }
 
         return createPieChart(languages, languageAmount, languageHEX);
@@ -49,20 +49,27 @@ public class PieChart {
     public static String createPieChart(String[] languages, int[] languageAmount, String[] languageHEX) {
         StringBuilder labels = new StringBuilder();
         for (String l : languages) {
-            labels.append(l).append(",");
+            labels.append("'").append(l).append("'").append(",");
         }
+        String labelsString = labels.substring(0, labels.length()-1);
 
         StringBuilder data = new StringBuilder();
         for (int i : languageAmount) {
             data.append(""+i).append(",");
         }
+        String dataString = data.substring(0, data.length()-1);
 
         StringBuilder color = new StringBuilder();
         for (String c : languageHEX) {
-            color.append("'rgb").append(Color.decode(c)).append("),");
+            color.append("'rgb(")
+                    .append(Color.decode(c).getRed())
+                    .append(", ")
+                    .append(Color.decode(c).getGreen())
+                    .append(", ")
+                    .append(Color.decode(c).getBlue())
+                    .append(")',");
         }
-
-        System.out.println(color.toString());
+        String colorString = color.toString();
 
         QuickChart chart = new QuickChart();
         chart.setWidth(600);
@@ -73,19 +80,16 @@ public class PieChart {
                 "    datasets: [" +
                 "      {" +
 //                "        data: [84, 28, 57, 19, 97]," +
-                "        data: ["+ data.toString() +"]," +
+                "        data: ["+ dataString +"]," +
 
                 "        backgroundColor: [" +
-                "          'rgb(255, 99, 132)'," +
-                "          'rgb(255, 159, 64)'," +
-                "          'rgb(255, 205, 86)'," +
-                "          'rgb(75, 192, 192)'," +
-                "          'rgb(54, 162, 235)'," +
+//                "          'rgb(255, 99, 132)'," +
+                             colorString +
                 "        ]," +
                 "      }," +
                 "    ]," +
 //                "    labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue']," +
-                "    labels: ["+ labels.toString() +"]," +
+                "    labels: ["+ labelsString +"]," +
                 "    " +
                 "  }," +
                 "  options: {" +

@@ -4,12 +4,7 @@ import javax.security.auth.login.LoginException;
 
 import Bot.*;
 import BotLoop.BotLoop;
-import Chart.MemberBarChart;
-import Chart.PieChart;
-import Web.API;
-import Web.Auth;
-
-import java.time.LocalDate;
+import Chart.*;
 
 
 public class Main {
@@ -18,17 +13,20 @@ public class Main {
         Bot.run();
         try {Config.jda.awaitReady();} catch (Exception e) {System.out.println("Bot not ready");}
 
+        // Load data from json
         Config.app.deserializeAppSimple();
         Config.allChannels.deserializeAllChannelsSimple();
         Config.members.deserializeMembersSimple();
 //        Config.discordRoles.deserializeDiscordRolesSimple();
         Config.botLogs.deserializeBotLogsSimple();
+        Config.pLangs.deserializePLangsSimple();
+        Config.botMsg.deserializeBotLogsSimple();
 
 //        SetupChannels.setupChannels();
 //        SetupRoles.setupRoles();
+        SetupMessages.setupMessages();
 
-
-
+//        System.out.println(PieChart.pieChart());
 
         BotLoop.startBotLoop();
 

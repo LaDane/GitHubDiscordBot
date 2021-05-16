@@ -25,6 +25,9 @@ public class Members {
         File fileName = new File("src/Secrets/Members.json");
         try (FileWriter writer = new FileWriter(fileName)) {
             gson.toJson(Config.members, writer);
+            writer.flush();
+            writer.close();
+            System.out.println("Saved to Members.json");
         } catch (IOException e) {
             e.printStackTrace();
         }

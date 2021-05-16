@@ -24,8 +24,12 @@ public class MessageListener extends ListenerAdapter {
         String jumpURL = event.getMessage().getJumpUrl();
 
         // Don't continue if bot is message author
-        if (memberID.equals(Bot.bot.getBotID()))
+        if (memberID.equals(Bot.bot.getBotID())) {
+            Config.botLogs.updateBotLogs(0,0,0,0,0,0,1,1);
             return;
+        }
+        Config.botLogs.updateBotLogs(0,0,0,0,0,0,1,0);
+
 
         BotChannel commitsCommandsChannel = null;
         for (BotChannel channel : Config.allChannels.getAllChannels()) {
@@ -35,8 +39,9 @@ public class MessageListener extends ListenerAdapter {
         if (commitsCommandsChannel == null || !channelID.equals(commitsCommandsChannel.getChannelID()))
             return;
 
-        Config.members.deserializeMembersSimple();
-        Config.allChannels.deserializeAllChannelsSimple();
+        // TODO: THESE DESERIALIZE FUNCTIONS WILL FUCK UP MEMBER BOT LOOP SINCE CONFIG.MEMBERS WILL BE OVERWRITTEN IN MEMORY!
+//        Config.members.deserializeMembersSimple();
+//        Config.allChannels.deserializeAllChannelsSimple();
 
         //Switch
         String cmd = message.split(" ")[0].toLowerCase();

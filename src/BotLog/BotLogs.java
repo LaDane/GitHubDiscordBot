@@ -19,24 +19,28 @@ public class BotLogs {
     public void removeFromBotLogs(BotLog botLog) {botLogs.remove(botLog);}
 
 
-    public void updateBotLogs(int logCommits, int logLinesAdded, int logLinesRemoved) {
+    public void updateBotLogs(int commits, int linesAdd, int linesRem,
+                              int pointsGiven, int pointsWon, int pointsLost,
+                              int msg, int msgBot) {
         deserializeBotLogsSimple();
 
         LocalDate today = LocalDate.now();
         BotLog latestBotLog = getBotLog(today);
         if (latestBotLog == null) {
-            latestBotLog = new BotLog(LocalDate.now().toString(), logCommits, logLinesAdded, logLinesRemoved);
+            latestBotLog = new BotLog(LocalDate.now().toString(), commits, linesAdd, linesRem,
+                    pointsGiven, pointsWon, pointsLost, msg, msgBot);
+
             Config.botLogs.addToBotLogs(latestBotLog);
         }
         else {
-            latestBotLog.setLogCommits(latestBotLog.getLogCommits() + logCommits);
-            latestBotLog.setLogLinesAdded(latestBotLog.getLogLinesAdded() + logLinesAdded);
-            latestBotLog.setLogLinesRemoved(latestBotLog.getLogLinesRemoved() + logLinesRemoved);
+            latestBotLog.setLogCommits(latestBotLog.getLogCommits() + commits);
+            latestBotLog.setLogLinesAdded(latestBotLog.getLogLinesAdded() + linesAdd);
+            latestBotLog.setLogLinesRemoved(latestBotLog.getLogLinesRemoved() + linesRem);
         }
         serializeBotLogsSimple();
     }
 
-    public int[] getBotLogData(LocalDate date) {
+    public int[] getBotLogCommitsLines(LocalDate date) {
         BotLog latestBotLog = getBotLog(date);
         if (latestBotLog == null)
             return new int[3];
@@ -45,6 +49,29 @@ public class BotLogs {
             int logLinesAdded = latestBotLog.getLogLinesAdded();
             int logLinesRemoved = latestBotLog.getLogLinesRemoved();
             return new int[]{logCommits, logLinesAdded, logLinesRemoved};
+        }
+    }
+
+    public int[] getBotLogPoints(LocalDate date) {
+        BotLog latestBotLog = getBotLog(date);
+        if (latestBotLog == null)
+            return new int[3];
+        else {
+            int pointsGiven = latestBotLog.getLogPointsGiven();
+            int pointsWon = latestBotLog.getLogPointsWon();
+            int pointsLost = latestBotLog.getLogPointsLost();
+            return new int[]{pointsGiven, pointsWon, pointsLost};
+        }
+    }
+
+    public int[] getBotLogMessages(LocalDate date) {
+        BotLog latestBotLog = getBotLog(date);
+        if (latestBotLog == null)
+            return new int[2];
+        else {
+            int msgAmount = latestBotLog.getLogMessages();
+            int msgAmountBot = latestBotLog.getLogMessagesBot();
+            return new int[]{msgAmount, msgAmountBot};
         }
     }
 

@@ -31,7 +31,7 @@ public class Member {
     private int memberLinesAdded;
     private int memberLinesRemoved;
     private ArrayList<String> memberItemsOwned;
-    private ArrayList<RepoStats> memberRepoStats;
+    private ArrayList<RepoStats> memberRepoStats = new ArrayList<RepoStats>();
 
     public Member(String memberGithubName, String memberGithubURL, String memberGithubApiURL,
                   String memberAvatarURL, String memberGithubPublicRepos, String memberGithubPublicReposURL,
@@ -61,7 +61,7 @@ public class Member {
         this.memberLinesAdded = memberLinesAdded;
         this.memberLinesRemoved = memberLinesRemoved;
         this.memberItemsOwned = memberItemsOwned;
-        this.memberRepoStats = new ArrayList<RepoStats>();
+//        this.memberRepoStats = new ArrayList<RepoStats>();
     }
 
     public String getMemberGithubName() {return memberGithubName;}
@@ -102,22 +102,19 @@ public class Member {
 
 
     public void updateMemberRepoStats(String repoLanguage) {
-//        Config.members.deserializeMembersSimple();
-
         boolean languageExistsInRepoStats = false;
         for (RepoStats repoStats : memberRepoStats) {
             if (repoStats.getRepoLanguage().matches(repoLanguage)) {
                 repoStats.setRepoLanguageAmount(repoStats.getRepoLanguageAmount() + 1);
                 languageExistsInRepoStats = true;
-                System.out.println(memberGithubName +" already has "+ repoLanguage +" in their repoStats. + 1");
+//                System.out.println(memberGithubName +" already has "+ repoLanguage +" in their repoStats. + 1");
             }
         }
         if (!languageExistsInRepoStats) {
             RepoStats repoStats = new RepoStats(repoLanguage, 1);
             addToMemberRepoStats(repoStats);
-            System.out.println(memberGithubName +" doesnt have "+ repoLanguage +" in their repoStats, adding new entry!");
+//            System.out.println(memberGithubName +" doesnt have "+ repoLanguage +" in their repoStats, adding new entry!");
         }
-        Config.members.serializeMembersSimple();
     }
 
     public EmbedBuilder memberEmbed(String title) {

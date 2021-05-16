@@ -3,7 +3,7 @@ package BotLoop;
 import BotChannel.BotChannel;
 import Commands.CmdRemove;
 import Core.Config;
-import Member.Member;
+import Member.*;
 import Web.API;
 import Chart.MemberBarChart;
 import com.google.gson.JsonArray;
@@ -17,10 +17,13 @@ import java.awt.*;
 
 public class LoopMembers {
 
-    public static void loopMembers(BotChannel membersChannel, BotChannel leaderboardChannel, BotChannel commitsCommandsChannel) {
+    public static void loopMembers(BotChannel membersChannel, BotChannel commitsCommandsChannel) {
+
+        // deserialize must be done outside of for loop in order to not replace current config.members member
+        Config.members.deserializeMembersSimple();
 
         for (Member member : Config.members.getMembers()) {
-            Config.members.deserializeMembersSimple();
+//            Config.members.deserializeMembersSimple();
             try {Thread.sleep(15 * 1000L);}
             catch (InterruptedException e) {Thread.currentThread().interrupt();}
             System.out.println("Current member = "+ member.getMemberGithubName());
@@ -37,6 +40,7 @@ public class LoopMembers {
             JsonArray apiRepo = (JsonArray) new JsonParser().parse(requestRepo);
 
             // API error handling
+            if (api1 == null) break;
             try {
                 if (api1.get("message").getAsString().contains("API rate limit exceeded") ||
                         api2.get("message").getAsString().contains("API rate limit exceeded")) {
@@ -46,13 +50,9 @@ public class LoopMembers {
                     return;
                 }
             } catch (Exception e) {}
-            if (api1 == null) {
-                break;
-            }
             try {api1.get("login").getAsString();}
             catch (Exception e) {
                 System.out.println("Error: Member Github account is no longer reachable!");
-//                e.printStackTrace();
 //                CmdRemove.removeMember();     // TODO: FINISH -> GET GITHUB ACCOUNT NAME + SOMETHING ELSE
                 break;
             }
@@ -64,15 +64,15 @@ public class LoopMembers {
             member.setMemberGithubFollowers(api1.get("followers").getAsString());
             member.setMemberGithubFollowing(api1.get("following").getAsString());
 
+            // Member repo stats
             member.resetMemberRepoStats();
             for (int i = 0; i < apiRepo.size(); i++) {
                 String repoLanguage = apiRepo.get(i).getAsJsonObject().get("language").getAsString();
                 member.updateMemberRepoStats(repoLanguage);
-                System.out.println(member.getMemberGithubName() + "\t - "+ repoLanguage);
             }
 
-            Config.members.serializeMembersSimple();
 
+            // New commit detected!
             if (!lastUpdate.equals(member.getMemberLastCommit())) {
                 String request3 = API.request(lastUpdate);
                 JsonObject api3 = (JsonObject) new JsonParser().parse(request3);
@@ -93,10 +93,10 @@ public class LoopMembers {
                 member.setMemberCommits(member.getMemberCommits() + 1);
                 member.setMemberLinesAdded(member.getMemberLinesAdded() + Integer.parseInt(additions));
                 member.setMemberLinesRemoved(member.getMemberLinesRemoved() + Integer.parseInt(deletions));
-                Config.members.serializeMembersSimple();
+//                Config.members.serializeMembersSimple();
 
                 // Update bot logs
-                Config.botLogs.updateBotLogs(1, Integer.parseInt(additions), Integer.parseInt(deletions));
+                Config.botLogs.updateBotLogs(1, Integer.parseInt(additions), Integer.parseInt(deletions),Integer.parseInt(additions),0,0,0,0);
 
                 // Create commit embed
                 EmbedBuilder embed = new EmbedBuilder().setColor(Color.decode(member.getMemberColor()));
@@ -111,9 +111,12 @@ public class LoopMembers {
                 Config.guild.getTextChannelById(commitsCommandsChannel.getChannelID()).sendMessage(embed.build()).queue();
                 embed.clear();
             }
+            // Save member data to json
+            Config.members.serializeMembersSimple();
 
             // Edit member embed
             member.editMemberEmbed(membersChannel);
+
         }
     }
 }
