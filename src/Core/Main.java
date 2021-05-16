@@ -24,7 +24,7 @@ public class Main {
 
 //        SetupChannels.setupChannels();
 //        SetupRoles.setupRoles();
-        SetupMessages.setupMessages();
+//        SetupMessages.setupMessages();
 
 //        System.out.println(PieChart.pieChart());
 

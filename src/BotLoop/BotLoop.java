@@ -26,7 +26,7 @@ public class BotLoop {
             try {
 
                 LoopMembers.loopMembers(membersChannel, commitsCommandsChannel);
-//                LoopMessages.loopMessages(leaderboardChannel, graphsChannel);
+                LoopMessages.loopMessages(leaderboardChannel, graphsChannel);
 
                 System.out.println("Pausing for '"+ sleepTime +"' seconds");
                 Thread.sleep(sleepTime * 1000L);

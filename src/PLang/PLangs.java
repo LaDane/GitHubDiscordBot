@@ -21,7 +21,7 @@ public class PLangs {
     public String getColorByLanguage(String language) {
         for (PLang pLang : pLangs) {
             if (pLang.getLang().matches(language)) {
-                System.out.println(language +" has GitHub color: "+ pLang.getColor());
+//                System.out.println(language +" has GitHub color: "+ pLang.getColor());
                 return pLang.getColor();
             }
         }
