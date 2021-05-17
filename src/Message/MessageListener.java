@@ -71,7 +71,7 @@ public class MessageListener extends ListenerAdapter {
             case ("/add") -> CmdAdd.cmdAdd(message, memberID, channelID);
             case ("/remove") -> CmdRemove.cmdRemove(message, memberID, channelID);
             case ("/recent") -> CmdRecent.cmdRecent(message, memberID, channelID);
-            case ("/leaderboard") -> CmdLeaderboard.cmdLeaderboard(channelID);
+//            case ("/leaderboard") -> CmdLeaderboard.cmdLeaderboard(channelID);
             case ("/userstats") -> CmdUserstats.cmdUserstats(message, memberID, channelID);
             case ("/flip") -> CmdFlip.cmdFlip(message, memberID, channelID);
 //            case ("/shop") -> CmdShop.cmdShop(memberID, channelID);

@@ -56,9 +56,11 @@ public class Bot {
 
         String apiTokenMsg = "\nInput GitHub API Token\n";
         String apiTokenInput = UI.UserInput.getUserInput(apiTokenMsg);
+        StringBuilder apiString = new StringBuilder();
+        apiString.append("token ").append(apiTokenInput);
 
         bot = new DiscordBot(tokenInput, botID_Input, serverID_Input);
-        Config.app = new App(apiTokenInput);
+        Config.app = new App(apiString.toString());
 
         serializeBotSimple();
     }
@@ -104,6 +106,7 @@ public class Bot {
             Config.members.serializeMembersSimple();
             Config.botLogs.serializeBotLogsSimple();
             Config.botMsg.serializeBotMessageSimple();
+            Config.pLangs.deserializePLangsSimple();
         } else {
             Config.app.deserializeAppSimple();
             Config.allChannels.deserializeAllChannelsSimple();

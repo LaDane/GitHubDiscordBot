@@ -37,6 +37,7 @@ public class LoopMembers {
                             githubName +"&sort=author-date&order=desc&page=1",
                     "application/vnd.github.cloak-preview");
             String requestRepo = API.request("https://api.github.com/users/"+ githubName +"/repos");
+//            System.out.println(request2);
 
             JsonObject api1 = (JsonObject) new JsonParser().parse(request1);
             JsonObject api2 = (JsonObject) new JsonParser().parse(request2);
@@ -44,6 +45,10 @@ public class LoopMembers {
 
             // API error handling
             if (api1 == null) break;
+            if (/*api1.get("items").getAsJsonArray().size() == 0 || */api2.get("items").getAsJsonArray().size() == 0) {
+                System.out.println("ERROR: "+ member.getMemberGithubName() +" items array is equal to 0!");
+                continue;
+            }
             try {
                 if (api1.get("message").getAsString().contains("API rate limit exceeded") ||
                         api2.get("message").getAsString().contains("API rate limit exceeded")) {
@@ -57,7 +62,7 @@ public class LoopMembers {
             catch (Exception e) {
                 System.out.println("Error: Member Github account is no longer reachable!");
 //                CmdRemove.removeMember();     // TODO: FINISH -> GET GITHUB ACCOUNT NAME + SOMETHING ELSE
-                break;
+                continue;
             }
 
             // Update repos / followers / following / avatar url

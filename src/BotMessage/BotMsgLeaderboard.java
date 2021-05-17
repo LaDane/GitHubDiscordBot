@@ -11,27 +11,31 @@ import java.util.Comparator;
 
 public class BotMsgLeaderboard {
     public static EmbedBuilder leaderboardEmbed() {
-        ArrayList<String[]> users = new ArrayList<>();
-        for (Member d : Config.members.getMembers()) {
-            String tmp[] = {
-                    d.getMemberGithubName(),
-                    String.valueOf(d.getMemberPoints())
-            };
-            users.add(tmp);
-        }
-        Collections.sort(users, new Comparator<String[]>() {
-            public int compare(String[] strings, String[] otherStrings) {
-                return strings[1].compareTo(otherStrings[1]);
-            }
-        });
+//        ArrayList<String[]> users = new ArrayList<>();
+//        for (Member d : Config.members.getMembers()) {
+//            String tmp[] = {
+//                    d.getMemberGithubName(),
+//                    String.valueOf(d.getMemberPoints())
+//            };
+//            users.add(tmp);
+//        }
+//        Collections.sort(users, new Comparator<String[]>() {
+//            public int compare(String[] strings, String[] otherStrings) {
+//                return strings[1].compareTo(otherStrings[1]);
+//            }
+//        });
+//        Collections.reverse(users);
 
-        Collections.reverse(users);
+        ArrayList<Member> memberArray = Config.members.getMembers();
+        memberArray.sort(new LeaderboardSorter());
+        Collections.reverse(memberArray);
+
         EmbedBuilder embed = new EmbedBuilder()
                 .setColor(Color.decode("#0099ff"))
                 .setTitle("Leaderboard");
         int i = 1;
-        for (String[] d : users) {
-            embed.addField("#" + i, "[" + d[0] + "](https://github.com/" + d[0] + "): " + d[1] + " point" + (!d[1].equals("1") ? "s" : ""), false);
+        for (Member d : memberArray) {
+            embed.addField("#" + i, "[" + d.getMemberGithubName() + "](https://github.com/" + d.getMemberGithubName() + "): " + d.getMemberPoints() + " point" + (d.getMemberPoints() != 1 ? "s" : ""), false);
             i++;
         }
         return embed;
