@@ -13,16 +13,21 @@ import java.util.function.Consumer;
 
 public class CmdRemove {
     private static String successColor = "#0099ff";
+    private static String[] adminIDs = {"212238899613925376", "174162544712220672", "338099136006062082", "213289077095661569"};
 
     public static void cmdRemove(String msg, String memberID, String channelID) {
         if (!msg.contains(" "))                             // remove self
             removeMember(memberID, channelID);
 
         else if (msg.contains("<@!")) {                     // remove another account
-            String discordID = msg.substring(msg.lastIndexOf("!") + 1).replaceAll(">", "");
+            for (String adminID : adminIDs) {
+                if (adminID.equals(memberID)) {
+                    String discordID = msg.substring(msg.lastIndexOf("!") + 1).replaceAll(">", "");
 
-            Consumer<?super User> callbackUser = (response) -> removeMember(discordID, channelID);
-            Config.jda.retrieveUserById(discordID).queue(callbackUser);
+                    Consumer<?super User> callbackUser = (response) -> removeMember(discordID, channelID);
+                    Config.jda.retrieveUserById(discordID).queue(callbackUser);
+                }
+            }
         }
     }
 

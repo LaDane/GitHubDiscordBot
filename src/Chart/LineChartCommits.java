@@ -41,7 +41,7 @@ public class LineChartCommits {
                 "  options: {" +
                 "    title: {" +
                 "      display: true," +
-                "      text: 'Total commits for all users: '," +
+                "      text: 'Total commits for all members by day: '," +
                 "      fontColor: '#ffffff'" +
                 "    }," +
                 "    legend: {" +
@@ -54,7 +54,8 @@ public class LineChartCommits {
                 "        {" +
                 "          stacked: true," +
                 "           ticks: {" +
-                "               fontColor: '#fff'" +
+                "               fontColor: '#fff'," +
+                "               precision: 0" +
                 "           }" +
                 "        }," +
                 "      ]," +
@@ -63,7 +64,8 @@ public class LineChartCommits {
                 "          stacked: true," +
                 "           ticks: {" +
                 "               beginAtZero: true," +
-                "               fontColor: '#fff'" +
+                "               fontColor: '#fff'," +
+                "               precision: 0" +
                 "           }," +
                 "           gridLines: {" +
                 "               color: '#aaa'" +

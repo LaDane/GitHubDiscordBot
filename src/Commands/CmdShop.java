@@ -38,8 +38,8 @@ public class CmdShop {
                     .addField(":black_large_square:", "1.000.000 Points (OG BIG BALLER :tophat:)", true);
             //Config.guild.getTextChannelById(channelID).sendMessage(embed.build()).queue();
             Config.guild.getTextChannelById(leaderBoardChannelID).sendMessage(embed.build()).queue((message) -> {
-                long shopMessageId = message.getIdLong();
-                EditMessage.editMessage(shopMessageId,leaderBoardChannelID);
+                Long shopMessageId = message.getIdLong();
+              // EditMessage.editMessage(shopMessageId,leaderBoardChannelID);
                 // use messageId here
             });
             embed.clear();

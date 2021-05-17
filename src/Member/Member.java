@@ -85,6 +85,7 @@ public class Member {
     public ArrayList<String> getMemberItemsOwned() {return memberItemsOwned;}
     public ArrayList<RepoStats> getMemberRepoStats() {return memberRepoStats;}
 
+    public void setMemberGithubAvatarURL(String url) {memberGithubAvatarURL = url;}
     public void setMemberGithubPublicRepos(String repos) {memberGithubPublicRepos = repos;}
     public void setMemberGithubFollowers(String followers) {memberGithubFollowers = followers;}
     public void setMemberGithubFollowing(String following) {memberGithubFollowing = following;}

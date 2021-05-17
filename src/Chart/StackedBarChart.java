@@ -46,7 +46,7 @@ public class StackedBarChart {
                 "  options: {" +
                 "    title: {" +
                 "      display: true," +
-                "      text: 'Total line changes: '," +
+                "      text: 'Total amount of lines changed for all members by day: '," +
                 "      fontColor: '#ffffff'" +
                 "    }," +
                 "    legend: {" +

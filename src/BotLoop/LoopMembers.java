@@ -14,6 +14,8 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class LoopMembers {
 
@@ -57,9 +59,10 @@ public class LoopMembers {
                 break;
             }
 
-            // Update repos / followers / following / repo stats
+            // Update repos / followers / following / avatar url
             String lastUpdate = api2.get("items").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
 
+            member.setMemberGithubAvatarURL(api1.get("avatar_url").getAsString());
             member.setMemberGithubPublicRepos(api1.get("public_repos").getAsString());
             member.setMemberGithubFollowers(api1.get("followers").getAsString());
             member.setMemberGithubFollowing(api1.get("following").getAsString());
@@ -77,8 +80,6 @@ public class LoopMembers {
                 }
             }
 
-
-
             // New commit detected!
             if (!lastUpdate.equals(member.getMemberLastCommit())) {
                 String request3 = API.request(lastUpdate);
@@ -94,6 +95,12 @@ public class LoopMembers {
                 String additions = api3.get("stats").getAsJsonObject().get("additions").getAsString();
                 String deletions = api3.get("stats").getAsJsonObject().get("deletions").getAsString();
 
+                // Date and time formatting
+                LocalDate date = LocalDate.parse(commitDate.substring(0, commitDate.indexOf(" ")).replaceAll(" ", ""));
+                System.out.println("\t\t\tNew date = "+ date.toString());
+                LocalTime time = LocalTime.parse(commitDate.substring(commitDate.indexOf(" ")).replaceAll(" ", ""));
+                System.out.println("\t\t\tNew time = "+ time.toString());
+
                 // Update member stats
                 member.setMemberLastCommit(lastUpdate);
                 member.setMemberPoints(member.getMemberPoints() + Integer.parseInt(additions));
@@ -103,7 +110,7 @@ public class LoopMembers {
 //                Config.members.serializeMembersSimple();
 
                 // Update bot logs
-                Config.botLogs.updateBotLogs(1, Integer.parseInt(additions), Integer.parseInt(deletions),Integer.parseInt(additions),0,0,0,0);
+                Config.botLogs.updateBotLogs(1, Integer.parseInt(additions), Integer.parseInt(deletions),Integer.parseInt(additions),0,0,0,0,0);
 
                 // Create commit embed
                 EmbedBuilder embed = new EmbedBuilder().setColor(Color.decode(member.getMemberColor()));

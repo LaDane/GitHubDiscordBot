@@ -19,7 +19,8 @@ public class EditMessage {
         }));
     }
 
-    public static void editMessage(long messageShopID,String channelID) {
+    public static void editMessage(String messageShopID,String channelID) {
+        System.out.println("THIS IS RUNNING!");
         TextChannel channel = Config.guild.getTextChannelById(channelID);
         channel.retrieveMessageById(messageShopID).queue((message) -> {
             // use the message here, its an async callback

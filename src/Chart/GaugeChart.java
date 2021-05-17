@@ -20,7 +20,7 @@ public class GaugeChart {
                 "  \"data\": {" +
                 "    \"datasets\": [{" +
                 "      \"label\": \"Messages\"," +
-                "      data: [" + botMessages + ", " + userMessages + "]," +
+                "      data: [" + botMessages + ", " + (userMessages - botMessages) + "]," +
                 "      }," +
                 "      {" +
                 "      \"backgroundColor\": [" +
@@ -40,16 +40,10 @@ public class GaugeChart {
                 "      \"doughnutlabel\": {" +
                 "        \"labels\": [" +
                 "          {" +
-                "            \"text\": \"\\nBot active messages\"," +
+                "            \"text\": \"\\n" + ((botMessages*100)/userMessages) + "% of "+ userMessages +" messages have been sent by the bot\"," +
                 "            \"color\": \"#aaa\"," +
                 "            \"font\": {" +
-                "              \"size\": \"23\"" +
-                "            }," +
-                "          }," +
-                "          {" +
-                "            \"text\": \"\\n90%\"," +
-                "            \"font\": {" +
-                "              \"size\": \"35\"" +
+                "              \"size\": \"14\"" +
                 "            }," +
                 "          }," +
                 "        ]" +

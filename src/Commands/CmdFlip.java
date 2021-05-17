@@ -1,5 +1,6 @@
 package Commands;
 
+import BotChannel.BotChannel;
 import Core.Config;
 import Member.Member;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -18,14 +19,27 @@ public class CmdFlip {
         if (member.getMemberPoints() < points) {Cmd.sendErrorEmbed("Not enough points", null, channelID); return;}
 
         if (Math.random() < 0.5) {
-            embed.setColor(Color.red).setTitle("Better luck next time!").addField("You lost " + points + " point" + (points != 1 ? "s" : ""), "\u200B", false);
             member.setMemberPoints(member.getMemberPoints() - points);
-            Config.botLogs.updateBotLogs(0,0,0,0,0,points,0,0);
+            embed.setColor(Color.red).setTitle("Better luck next time!")
+                    .addField("You lost " + points + " point" + (points != 1 ? "s" : ""), "You now have " + member.getMemberPoints() + " point" + (points != 1 ? "s" : ""), false);
+//                    .addField("You now have " + member.getMemberPoints() + " point" + (points != 1 ? "s" : ""), "\u200B", false);
+            Config.botLogs.updateBotLogs(0,0,0,0,0,points,0,0,0);
         } else {
-            embed.setColor(Color.green).setTitle("Congratulations!").addField("You won " + points + " point" + (points != 1 ? "s" : ""), "\u200B", false);
             member.setMemberPoints(member.getMemberPoints() + points);
-            Config.botLogs.updateBotLogs(0,0,0,0,points,0,0,0);
+            embed.setColor(Color.green).setTitle("Congratulations!")
+                    .addField("You won " + points + " point" + (points != 1 ? "s" : ""), "You now have " + member.getMemberPoints() + " point" + (points != 1 ? "s" : ""), false);
+//                    .addField("You now have " + member.getMemberPoints() + " point" + (points != 1 ? "s" : ""), "\u200B", false);
+            Config.botLogs.updateBotLogs(0,0,0,0,points,0,0,0,0);
         }
+
+        BotChannel membersChannel = null;
+        for (BotChannel c : Config.allChannels.getAllChannels()) {
+            if (c.getChannelName().equals("members"))
+                membersChannel = c;
+        }
+        if (membersChannel != null)
+            member.editMemberEmbed(membersChannel);
+
         Config.members.serializeMembersSimple();
         Config.guild.getTextChannelById(channelID).sendMessage(embed.build()).queue();
         embed.clear();

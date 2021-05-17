@@ -20,13 +20,8 @@ public class CmdHelp {
                 .addField("/userstats {name}", "Checks various statistics for the user, including their point score (defaults to your stats)", true)
                 .addField("/leaderboard", "Shows a leaderboard with all the registered users and their point score", true)
                 .addField("/flip [points]", "Feelin' risky? Put your points on the line in a game of luck", true)
-                .addField("/shop", "Redeem rewards for your hard-earned points", true)
-                .setImage(StackedBarChart.stackedBarChart());
+                .addField("/shop", "Redeem rewards for your hard-earned points", true);
         Config.guild.getTextChannelById(channelID).sendMessage(embed.build()).queue();
         embed.clear();
-
-
-
-      //  System.out.println(NewToken.renew());
     }
 }

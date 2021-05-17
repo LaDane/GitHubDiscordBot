@@ -6,6 +6,7 @@ import BotMessage.BotMsgLeaderboard;
 import BotMessage.BotMsgShop;
 import Chart.*;
 import Core.Config;
+import Message.EditMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 
 public class SetupMessages {
@@ -28,9 +29,16 @@ public class SetupMessages {
         Config.guild.getTextChannelById(leaderboardChannel.getChannelID()).sendMessage(shopEmbed.build()).queue((message) -> {
             String shopMessageID = message.getId();
             Config.botMsg.setShopID(shopMessageID);
+            BotChannel leaderBoardChannel = null;
+            for (BotChannel channel : Config.allChannels.getAllChannels()) {
+                if (channel.getChannelName().equals("leaderboard"))
+                    leaderBoardChannel = channel;
+            }
+            String leaderBoardChannelID = leaderBoardChannel.getChannelID();
+            EditMessage.editMessage(shopMessageID,leaderBoardChannelID);
         });
         shopEmbed.clear();
-
+/*
         // Leaderboard
         EmbedBuilder leaderboardEmbed = BotMsgLeaderboard.leaderboardEmbed();
         Config.guild.getTextChannelById(leaderboardChannel.getChannelID()).sendMessage(leaderboardEmbed.build()).queue((message) -> {
@@ -81,5 +89,7 @@ public class SetupMessages {
 
         // Save to json
         Config.botMsg.serializeBotMessageSimple();
+
+ */
     }
 }

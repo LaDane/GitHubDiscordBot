@@ -20,7 +20,7 @@ public class BotLogs {
 
 
     public void updateBotLogs(int commits, int linesAdd, int linesRem,
-                              int pointsGiven, int pointsWon, int pointsLost,
+                              int pointsGiven, int pointsWon, int pointsLost, int pointsSpent,
                               int msg, int msgBot) {
         deserializeBotLogsSimple();
 
@@ -28,7 +28,7 @@ public class BotLogs {
         BotLog latestBotLog = getBotLog(today);
         if (latestBotLog == null) {
             latestBotLog = new BotLog(LocalDate.now().toString(), commits, linesAdd, linesRem,
-                    pointsGiven, pointsWon, pointsLost, msg, msgBot);
+                    pointsGiven, pointsWon, pointsLost, pointsSpent, msg, msgBot);
 
             Config.botLogs.addToBotLogs(latestBotLog);
         }
@@ -40,6 +40,7 @@ public class BotLogs {
             latestBotLog.setLogPointsGiven(latestBotLog.getLogPointsGiven() + pointsGiven);
             latestBotLog.setLogPointsWon(latestBotLog.getLogPointsWon() + pointsWon);
             latestBotLog.setLogPointsLost(latestBotLog.getLogPointsLost() + pointsLost);
+            latestBotLog.setLogPointsSpent(latestBotLog.getLogPointsSpent() + pointsSpent);
 
             latestBotLog.setLogMessages(latestBotLog.getLogMessages() + msg);
             latestBotLog.setLogMessagesBot(latestBotLog.getLogMessagesBot() + msgBot);
@@ -62,12 +63,13 @@ public class BotLogs {
     public int[] getBotLogPoints(LocalDate date) {
         BotLog latestBotLog = getBotLog(date);
         if (latestBotLog == null)
-            return new int[3];
+            return new int[4];
         else {
             int pointsGiven = latestBotLog.getLogPointsGiven();
             int pointsWon = latestBotLog.getLogPointsWon();
             int pointsLost = latestBotLog.getLogPointsLost();
-            return new int[]{pointsGiven, pointsWon, pointsLost};
+            int pointsSpent = latestBotLog.getLogPointsSpent();
+            return new int[]{pointsGiven, pointsWon, pointsLost, pointsSpent};
         }
     }
 

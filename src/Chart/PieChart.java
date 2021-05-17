@@ -95,8 +95,19 @@ public class PieChart {
                 "  options: {" +
                 "    title: {" +
                 "      display: true," +
-                "      text: 'TITLE'," +
+                "      text: 'Number of times programming languages have been used in members repositories: '," +
+                "      fontColor: '#ffffff'" +
                 "    }," +
+                "    legend: {" +
+                "      labels: {" +
+                "        fontColor: '#ffffff'," +
+                "      }" +
+                "    }," +
+                "   plugins: {" +
+                "       datalabels: {" +
+                "       color: '#fff'"+
+                "       }"+
+                "   }"+
                 "  }," +
                 "  " +
                 "}"
