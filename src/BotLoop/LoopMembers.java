@@ -105,6 +105,10 @@ public class LoopMembers {
                 LocalDate date = LocalDate.parse(commitDate.substring(0, commitDate.indexOf(" ")).replaceAll(" ", ""));
                 LocalTime time = LocalTime.parse(commitDate.substring(commitDate.indexOf(" ")).replaceAll(" ", ""));
                 LocalDateTime newDateTime = LocalDateTime.of(date, time).plusHours(2);
+                if (newDateTime.isBefore(LocalDateTime.now().minusHours(1))) {
+                    System.out.println("ERROR: API call for "+ member.getMemberGithubName() +" is over an hour old. Continuing without updating!");
+                    continue;
+                }
                 date = newDateTime.toLocalDate();
                 time = newDateTime.toLocalTime();
 
