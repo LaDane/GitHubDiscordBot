@@ -4,3 +4,4 @@ out/*
 
 # keep following
 !src/Secrets/.gitkeep
+!src/Secrets/PLangs.json

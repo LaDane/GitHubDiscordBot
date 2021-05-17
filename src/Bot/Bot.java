@@ -1,6 +1,7 @@
 package Bot;
 
 import Message.MessageListener;
+import Web.App;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.dv8tion.jda.api.JDABuilder;
@@ -29,13 +30,19 @@ public class Bot {
             if (bot.getBotID() == null)
                 noData = true;
         }
-        catch (IOException e) {e.printStackTrace();}
+        catch (IOException e) {
+//            e.printStackTrace();
+            noData = true;
+        }
 
         if (noData)
             setupBot();
-        startBot();
+        startBot(noData);
     }
 
+    private static void createJson() {
+
+    }
 
     private static void setupBot() {                         // user input
         String tokenMsg = "\nInput bot token\n";
@@ -47,7 +54,11 @@ public class Bot {
         String serverID_Msg = "\nInput server ID\n";
         String serverID_Input = UI.UserInput.getUserInput(serverID_Msg);
 
+        String apiTokenMsg = "\nInput GitHub API Token\n";
+        String apiTokenInput = UI.UserInput.getUserInput(apiTokenMsg);
+
         bot = new DiscordBot(tokenInput, botID_Input, serverID_Input);
+        Config.app = new App(apiTokenInput);
 
         serializeBotSimple();
     }
@@ -65,7 +76,7 @@ public class Bot {
     }
 
 
-    private static void startBot() throws LoginException, InterruptedException {
+    private static void startBot(boolean noData) throws LoginException, InterruptedException {
         String TOKEN = bot.getToken();
 
         Config.builder = JDABuilder.createDefault(TOKEN);
@@ -82,8 +93,24 @@ public class Bot {
         System.out.println("Bot setup successful!");
         Config.guild = Config.jda.getGuildById(bot.getServerID());
 
+        if (noData) {
+            Thread.sleep(3 * 1000L);
+            SetupChannels.setupChannels();
+            Thread.sleep(3 * 1000L);
+            SetupMessages.setupMessages();
 
-
-        //TODO: Check commit status loop (60 seconds)
+            Config.app.serializeAppSimple();
+            Config.allChannels.serializeAllChannelsSimple();
+            Config.members.serializeMembersSimple();
+            Config.botLogs.serializeBotLogsSimple();
+            Config.botMsg.serializeBotMessageSimple();
+        } else {
+            Config.app.deserializeAppSimple();
+            Config.allChannels.deserializeAllChannelsSimple();
+            Config.members.deserializeMembersSimple();
+            Config.botLogs.deserializeBotLogsSimple();
+            Config.pLangs.deserializePLangsSimple();
+            Config.botMsg.deserializeBotMessageSimple();
+        }
     }
 }

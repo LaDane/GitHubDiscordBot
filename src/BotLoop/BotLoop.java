@@ -7,7 +7,7 @@ import Chart.*;
 
 public class BotLoop {
 
-    private static int sleepTime = 60;          // sleep in seconds
+    private static int sleepTime = 180;          // sleep in seconds
 
     public static void startBotLoop() {
         BotChannel membersChannel = null;

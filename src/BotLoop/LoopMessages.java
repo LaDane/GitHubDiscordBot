@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
 public class LoopMessages {
     public static void loopMessages(BotChannel leaderboardChannel, BotChannel graphsChannel) {
-        Config.botMsg.deserializeBotLogsSimple();
+        // Config.botMsg.deserializeBotLogsSimple();
 
         if (leaderboardChannel == null || graphsChannel == null) {
             System.out.println("ERROR: Channels have not been setup! Cannot edit bot messages!");

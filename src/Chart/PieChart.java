@@ -41,6 +41,8 @@ public class PieChart {
             languageHEX[i] = Config.pLangs.getColorByLanguage(languages[i]);
 //            System.out.println("Language: "+ languages[i] +"\ttAmount: "+ languageAmount[i] +"\t\tHEX: "+ languageHEX[i]);
         }
+        if (languages.length == 0)
+            return createPieChart(new String[]{"No data"}, new int[]{1}, new String[]{"#0099ff"});
 
         return createPieChart(languages, languageAmount, languageHEX);
     }

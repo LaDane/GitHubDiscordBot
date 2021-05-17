@@ -36,14 +36,16 @@ public class SetupMessages {
             }
             String leaderBoardChannelID = leaderBoardChannel.getChannelID();
             EditMessage.editMessage(shopMessageID,leaderBoardChannelID);
+            Config.botMsg.serializeBotMessageSimple();
         });
         shopEmbed.clear();
-/*
+
         // Leaderboard
         EmbedBuilder leaderboardEmbed = BotMsgLeaderboard.leaderboardEmbed();
         Config.guild.getTextChannelById(leaderboardChannel.getChannelID()).sendMessage(leaderboardEmbed.build()).queue((message) -> {
             String leaderboardID = message.getId();
             Config.botMsg.setLeaderboardID(leaderboardID);
+            Config.botMsg.serializeBotMessageSimple();
         });
         leaderboardEmbed.clear();
 
@@ -53,6 +55,7 @@ public class SetupMessages {
         Config.guild.getTextChannelById(graphsChannel.getChannelID()).sendMessage(gaugeEmbed.build()).queue((message) -> {
             String gaugeID = message.getId();
             Config.botMsg.setGaugeChartID(gaugeID);
+            Config.botMsg.serializeBotMessageSimple();
         });
 
         // Donut chart
@@ -61,6 +64,7 @@ public class SetupMessages {
         Config.guild.getTextChannelById(graphsChannel.getChannelID()).sendMessage(doughnutEmbed.build()).queue((message) -> {
             String doughnutID = message.getId();
             Config.botMsg.setDonutChartID(doughnutID);
+            Config.botMsg.serializeBotMessageSimple();
         });
 
         // Pie chart
@@ -69,6 +73,7 @@ public class SetupMessages {
         Config.guild.getTextChannelById(graphsChannel.getChannelID()).sendMessage(pieEmbed.build()).queue((message) -> {
             String pieID = message.getId();
             Config.botMsg.setPieChartID(pieID);
+            Config.botMsg.serializeBotMessageSimple();
         });
 
         // Stacked bar chart
@@ -77,6 +82,7 @@ public class SetupMessages {
         Config.guild.getTextChannelById(graphsChannel.getChannelID()).sendMessage(stackBarEmbed.build()).queue((message) -> {
             String stackBarID = message.getId();
             Config.botMsg.setStackBarChartID(stackBarID);
+            Config.botMsg.serializeBotMessageSimple();
         });
 
         // Line chart
@@ -85,11 +91,11 @@ public class SetupMessages {
         Config.guild.getTextChannelById(graphsChannel.getChannelID()).sendMessage(lineEmbed.build()).queue((message) -> {
             String lineID = message.getId();
             Config.botMsg.setLineChartID(lineID);
+            Config.botMsg.serializeBotMessageSimple();
         });
 
         // Save to json
-        Config.botMsg.serializeBotMessageSimple();
+//        Config.botMsg.serializeBotMessageSimple();
 
- */
     }
 }

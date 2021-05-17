@@ -22,7 +22,7 @@ public class BotLogs {
     public void updateBotLogs(int commits, int linesAdd, int linesRem,
                               int pointsGiven, int pointsWon, int pointsLost, int pointsSpent,
                               int msg, int msgBot) {
-        deserializeBotLogsSimple();
+//        deserializeBotLogsSimple();
 
         LocalDate today = LocalDate.now();
         BotLog latestBotLog = getBotLog(today);

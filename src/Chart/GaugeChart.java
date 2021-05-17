@@ -12,6 +12,8 @@ public class GaugeChart {
     }
 
     public static String createGaugeChart(int botMessages, int userMessages) {
+        if (userMessages == 0)
+            userMessages = 1;
         QuickChart chart = new QuickChart();
         chart.setWidth(500);
         chart.setHeight(300);

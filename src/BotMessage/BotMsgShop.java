@@ -33,7 +33,6 @@ public class BotMsgShop {
 
         int pointsAvailable = member.getMemberPoints();
         if (pointsAvailable >= price){
-            System.out.println(member.getMemberGithubName() + " has bought " + color + " for " + price + " points");
             member.setMemberColor(color);
             member.setMemberPoints(pointsAvailable - price);
             embed
@@ -66,7 +65,7 @@ public class BotMsgShop {
             String messageID = message.getId();
             try {
                 Thread.sleep(5 * 1000L);
-                System.out.println("DONE");
+//                System.out.println("DONE");
 
                 TextChannel tChannel = Config.guild.getTextChannelById(leaderBoardChannelID);
 

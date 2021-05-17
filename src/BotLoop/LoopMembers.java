@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
 import java.awt.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class LoopMembers {
@@ -26,8 +27,8 @@ public class LoopMembers {
 
         for (Member member : Config.members.getMembers()) {
 //            Config.members.deserializeMembersSimple();
-            try {Thread.sleep(15 * 1000L);}
-            catch (InterruptedException e) {Thread.currentThread().interrupt();}
+//            try {Thread.sleep(15 * 1000L);}
+//            catch (InterruptedException e) {Thread.currentThread().interrupt();}
             System.out.println("\tCurrent member = "+ member.getMemberGithubName());
 
             String githubName = member.getMemberGithubName();
@@ -97,9 +98,10 @@ public class LoopMembers {
 
                 // Date and time formatting
                 LocalDate date = LocalDate.parse(commitDate.substring(0, commitDate.indexOf(" ")).replaceAll(" ", ""));
-                System.out.println("\t\t\tNew date = "+ date.toString());
                 LocalTime time = LocalTime.parse(commitDate.substring(commitDate.indexOf(" ")).replaceAll(" ", ""));
-                System.out.println("\t\t\tNew time = "+ time.toString());
+                LocalDateTime newDateTime = LocalDateTime.of(date, time).plusHours(2);
+                date = newDateTime.toLocalDate();
+                time = newDateTime.toLocalTime();
 
                 // Update member stats
                 member.setMemberLastCommit(lastUpdate);
@@ -118,7 +120,7 @@ public class LoopMembers {
 //                embed.setTitle("New [commit]("+ commitHtml +") by ["+ member.getMemberGithubName() +"]("+ authorHtml +")");
                 embed.setTitle("Commit Detected!");
                 embed.addField(repoName, "**New [commit]("+ commitHtml +") by ["+ member.getMemberGithubName() +"]("+ authorHtml +")**"+
-                        "\n**Commit message:** "+ commitMsg +"\n**Date:** "+ commitDate, false);
+                        "\n**Commit message:** "+ commitMsg +"\n**Date:** "+ date +" "+ time, false);
                 embed.addField("Changes", "\n**{+}** "+ additions +" line"+ (additions.equals("1") ? "" : "s") +" added ("+
                         additions +" point"+ (additions.equals("1") ? "" : "s") +" added)"+
                         "\n**{-}** "+ deletions +" line"+ (deletions.equals("1") ? "" : "s") +" removed", false);

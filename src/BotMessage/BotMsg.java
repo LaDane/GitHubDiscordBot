@@ -46,7 +46,7 @@ public class BotMsg {
         }
     }
 
-    public void deserializeBotLogsSimple() {
+    public void deserializeBotMessageSimple() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         File fileName = new File("src/Secrets/BotMessage.json");

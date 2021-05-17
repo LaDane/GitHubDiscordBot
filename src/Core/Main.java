@@ -14,16 +14,16 @@ public class Main {
         try {Config.jda.awaitReady();} catch (Exception e) {System.out.println("Bot not ready");}
 
         // Load data from json
-        Config.app.deserializeAppSimple();
-        Config.allChannels.deserializeAllChannelsSimple();
-        Config.members.deserializeMembersSimple();
-//        Config.discordRoles.deserializeDiscordRolesSimple();      // were not using roles ATM.
-        Config.botLogs.deserializeBotLogsSimple();
-        Config.pLangs.deserializePLangsSimple();
-        Config.botMsg.deserializeBotLogsSimple();
+//        Config.app.deserializeAppSimple();
+//        Config.allChannels.deserializeAllChannelsSimple();
+//        Config.members.deserializeMembersSimple();
+//        Config.discordRoles.deserializeDiscordRolesSimple();      // were not using roles
+//        Config.botLogs.deserializeBotLogsSimple();
+//        Config.pLangs.deserializePLangsSimple();
+//        Config.botMsg.deserializeBotLogsSimple();
 
 //        SetupChannels.setupChannels();
-//        SetupRoles.setupRoles();
+//        SetupRoles.setupRoles();                                  // were not using roles
 //        SetupMessages.setupMessages();
 
 //        System.out.println(PieChart.pieChart());
