@@ -17,16 +17,15 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="com.google.code.gson:gson:2.8.5" level="project" />
-    <orderEntry type="library" name="io.quickchart:QuickChart:1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="io.quickchart:QuickChart:1.0.0" level="project" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/chilkat.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/slf4j-simple-1.6.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="com.github.hiwepy:scribejava-apis-ext:1.0.0.RELEASE" level="project" />
   </component>
 </module>
