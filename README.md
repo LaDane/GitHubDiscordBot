@@ -20,10 +20,10 @@
 - Gamble your hard earned points away (/flip {amount})
 
 ### Created by:
-[Philippe](https://github.com/Philippe16)
-[Christian J.](https://github.com/Tsukani)
-[Viktor](https://github.com/viggo23111)
-[Aleksander W.](https://github.com/LaDane)
+- [Philippe](https://github.com/Philippe16)
+- [Christian J.](https://github.com/Tsukani)
+- [Viktor](https://github.com/viggo23111)
+- [Aleksander W.](https://github.com/LaDane)
 
 ## The 4 channels the bot keeps updated:
 
@@ -34,7 +34,7 @@
 ![alt text](https://media.discordapp.net/attachments/747967053050151014/844254222999748608/unknown.png?width=568&height=560)
 
 ### commits-commands channel
-![alt text](https://media.discordapp.net/attachments/747967053050151014/844257954982527066/unknown.png)
+![alt text](https://media.discordapp.net/attachments/747967053050151014/844258909288136774/unknown.png)
 
 ### graphs channel
 ![alt text](https://media.discordapp.net/attachments/747967053050151014/844255004889579530/unknown.png)
