@@ -13,7 +13,7 @@ public class DoughnutChart {
 
     public static String doughnutChart(Member member) {
         int[] memberLogPoints = member.getMemberLogPoints(LocalDate.now());
-        return createDoughnutChart(memberLogPoints[0], memberLogPoints[1], memberLogPoints[2], memberLogPoints[4]);
+        return createDoughnutChart(memberLogPoints[0], memberLogPoints[1], memberLogPoints[2], memberLogPoints[3]);
     }
 
     public static String createDoughnutChart(int pointsGiven, int pointsWon, int pointsLost, int pointsSpent) {
