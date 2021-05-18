@@ -12,7 +12,7 @@
 - User interface to easily setup a bot on your Discord server.
 
 ### Commands:
-- A helpfull help menu (/help)
+- A helpful help menu (/help)
 - Discord members can add themselves with a simple command (/add {GitHub name})
 - Discord members can remove themselves with a command (/remove)
 - Show a users recent commit history (/recent)
