@@ -1,9 +1,9 @@
 package Core;
 
 
+import Bot.DiscordBot;
 import BotMessage.BotMsg;
 import PLang.PLangs;
-import Web.App;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -21,11 +21,12 @@ public class Config {
     public static JDA jda;
     public static JDABuilder builder;
     public static Guild guild;
+    public static DiscordBot bot = null;
     public static AllChannels allChannels = new AllChannels(new ArrayList<BotChannel>());
     public static Members members = new Members(new ArrayList<Member>());
     public static DiscordRoles discordRoles = new DiscordRoles(new ArrayList<DiscordRole>());
     public static BotLogs botLogs = new BotLogs();
-    public static App app = new App("");
+//    public static App app = new App("");
     public static PLangs pLangs = new PLangs();
     public static BotMsg botMsg = new BotMsg();
 

@@ -1,7 +1,6 @@
 package Bot;
 
 import Message.MessageListener;
-import Web.App;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.dv8tion.jda.api.JDABuilder;
@@ -10,9 +9,9 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import java.io.*;
+import java.util.Scanner;
 
 import Core.*;
-import BotChannel.*;
 
 import javax.security.auth.login.LoginException;
 
@@ -29,38 +28,80 @@ public class Bot {
             bot = gson.fromJson(reader, DiscordBot.class);
             if (bot.getBotID() == null)
                 noData = true;
+            else
+                Config.bot = bot;
         }
         catch (IOException e) {
-//            e.printStackTrace();
             noData = true;
         }
 
         if (noData)
             setupBot();
+        else {
+            while(true) {
+                String resetBotMsg = """
+                    Existing bot data already exists on this system.
+                    Would you like to load the existing bot data?
+                    Existing bot data will be wiped if 'n' is replied.
+                    (y / n)
+                    """;
+                String resetBotInput = getUserInput(resetBotMsg);
+                if (resetBotInput.equalsIgnoreCase("y"))
+                    break;
+                else if (resetBotInput.equalsIgnoreCase("n")) {
+                    resetBot();
+                    setupBot();
+                    break;
+                } else
+                    System.out.println("ERROR: Invalid input. Try again!\n");
+            }
+        }
         startBot(noData);
     }
 
-    private static void createJson() {
+    private static void resetBot() {
+        File allChannelsFile = new File("src/Secrets/AllChannels.json");
+        File botLogsFile = new File("src/Secrets/BotLogs.json");
+        File botMessageFile = new File("src/Secrets/BotMessage.json");
+        File discordBotFile = new File("src/Secrets/DiscordBot.json");
+        File membersFile = new File("src/Secrets/Members.json");
 
+        int filesDeleted = 0;
+        if (allChannelsFile.exists() && allChannelsFile.delete())
+            filesDeleted++;
+        if (botLogsFile.exists() && botLogsFile.delete())
+            filesDeleted++;
+        if (botMessageFile.exists() && botMessageFile.delete())
+            filesDeleted++;
+        if (discordBotFile.exists() && discordBotFile.delete())
+            filesDeleted++;
+        if (membersFile.exists() && membersFile.delete())
+            filesDeleted++;
+
+        if (filesDeleted == 5) {
+            System.out.println("SUCCESS: Bot data has been reset!");
+        } else {
+            System.out.println("ERROR: an error occurred while trying to reset stored data!");
+        }
     }
 
     private static void setupBot() {                         // user input
         String tokenMsg = "\nInput bot token\n";
-        String tokenInput = UI.UserInput.getUserInput(tokenMsg);
+        String tokenInput = getUserInput(tokenMsg);
 
         String botID_Msg = "\nInput bot ID\n";
-        String botID_Input = UI.UserInput.getUserInput(botID_Msg);
+        String botID_Input = getUserInput(botID_Msg);
 
         String serverID_Msg = "\nInput server ID\n";
-        String serverID_Input = UI.UserInput.getUserInput(serverID_Msg);
+        String serverID_Input = getUserInput(serverID_Msg);
 
         String apiTokenMsg = "\nInput GitHub API Token\n";
-        String apiTokenInput = UI.UserInput.getUserInput(apiTokenMsg);
+        String apiTokenInput = getUserInput(apiTokenMsg);
         StringBuilder apiString = new StringBuilder();
         apiString.append("token ").append(apiTokenInput);
 
-        bot = new DiscordBot(tokenInput, botID_Input, serverID_Input);
-        Config.app = new App(apiString.toString());
+        bot = new DiscordBot(tokenInput, botID_Input, serverID_Input, apiString.toString());
+        Config.bot = bot;
 
         serializeBotSimple();
     }
@@ -101,19 +142,23 @@ public class Bot {
             Thread.sleep(3 * 1000L);
             SetupMessages.setupMessages();
 
-            Config.app.serializeAppSimple();
             Config.allChannels.serializeAllChannelsSimple();
             Config.members.serializeMembersSimple();
             Config.botLogs.serializeBotLogsSimple();
             Config.botMsg.serializeBotMessageSimple();
-            Config.pLangs.deserializePLangsSimple();
+
         } else {
-            Config.app.deserializeAppSimple();
             Config.allChannels.deserializeAllChannelsSimple();
             Config.members.deserializeMembersSimple();
             Config.botLogs.deserializeBotLogsSimple();
-            Config.pLangs.deserializePLangsSimple();
             Config.botMsg.deserializeBotMessageSimple();
         }
+        Config.pLangs.deserializePLangsSimple();
+    }
+
+    private static String getUserInput(String msg) {
+        System.out.print(msg);
+        Scanner scan = new Scanner(System.in);
+        return scan.nextLine();
     }
 }
