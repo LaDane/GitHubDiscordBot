@@ -67,10 +67,11 @@ public class MessageListener extends ListenerAdapter {
             return;
         }
 
-        event.getReaction().removeReaction(event.getUser()).queue();
         String leaderBoardChannelID = Config.allChannels.getLeaderboardChannel().getChannelID();
 
         if (event.getChannel().getId().equals(leaderBoardChannelID)) {
+            event.getReaction().removeReaction(event.getUser()).queue();
+
             String memberID = event.getMember().getUser().getId();
             String reactionEmojiName = event.getReactionEmote().getName();
             Member reactionMember = null;

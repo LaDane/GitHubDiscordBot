@@ -51,25 +51,25 @@ public class CmdUserstats {
 
         // Member doughnut chart
         String doughnutURL = DoughnutChart.doughnutChart(member);
-        EmbedBuilder doughnutEmbed = BotMsgChart.chartEmbed(doughnutURL);
+        EmbedBuilder doughnutEmbed = BotMsgChart.chartEmbed(doughnutURL, member.getMemberColor());
         Config.guild.getTextChannelById(channelID).sendMessage(doughnutEmbed.build()).queue();
         doughnutEmbed.clear();
 
         // Member pie chart
         String pieURL = PieChart.pieChart(member);
-        EmbedBuilder pieEmbed = BotMsgChart.chartEmbed(pieURL);
+        EmbedBuilder pieEmbed = BotMsgChart.chartEmbed(pieURL, member.getMemberColor());
         Config.guild.getTextChannelById(channelID).sendMessage(pieEmbed.build()).queue();
         pieEmbed.clear();
 
         // Member stacked bar chart
         String stackURL = StackedBarChart.stackedBarChart(member);
-        EmbedBuilder stackEmbed = BotMsgChart.chartEmbed(stackURL);
+        EmbedBuilder stackEmbed = BotMsgChart.chartEmbed(stackURL, member.getMemberColor());
         Config.guild.getTextChannelById(channelID).sendMessage(stackEmbed.build()).queue();
         stackEmbed.clear();
 
         // Member line chart
         String lineURL = LineChartCommits.lineChartCommits(member);
-        EmbedBuilder lineEmbed = BotMsgChart.chartEmbed(lineURL);
+        EmbedBuilder lineEmbed = BotMsgChart.chartEmbed(lineURL, member.getMemberColor());
         Config.guild.getTextChannelById(channelID).sendMessage(lineEmbed.build()).queue();
         lineEmbed.clear();
     }
