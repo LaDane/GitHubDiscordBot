@@ -3,7 +3,6 @@ package Commands;
 import Core.Config;
 import Member.Member;
 import Web.API;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -11,7 +10,6 @@ import net.dv8tion.jda.api.entities.User;
 
 import java.awt.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class CmdRecent {

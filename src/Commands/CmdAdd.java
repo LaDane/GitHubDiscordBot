@@ -1,6 +1,5 @@
 package Commands;
 
-import BotChannel.BotChannel;
 import Core.Config;
 import Member.*;
 import Web.API;
@@ -10,13 +9,10 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class CmdAdd {
     private static String defaultColor = "#0099ff";
-    private static String memberDiscordMsgID;
 
     public static void cmdAdd(String msg, String memberID, String channelID) {
         if (!msg.contains(" "))                 // error
@@ -53,13 +49,8 @@ public class CmdAdd {
                 Cmd.sendErrorEmbed("An error occurred while trying to link Github account!", null, channelID);
                 return;
             }
-            BotChannel membersChannel = null;
-            for (BotChannel channel : Config.allChannels.getAllChannels()) {
-                if (channel.getChannelName().equals("members"))
-                    membersChannel = channel;
-            }
-            if (membersChannel == null) {Cmd.sendErrorEmbed("Leaderboard channel does not exist! Cannot create new member", null, channelID); return;}
-            String membersChannelID = membersChannel.getChannelID();
+
+            String membersChannelID = Config.allChannels.getMembersChannel().getChannelID();
             String githubCreatedAt = api1.get("created_at").getAsString()
                     .replaceAll("T", " ").replaceAll("Z","");
 
@@ -78,7 +69,7 @@ public class CmdAdd {
                     api2.get("items").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString(),
                     memberID, "", defaultColor,
                     0,0,0,
-                    0,new ArrayList<String>());
+                    0);
 
             Config.members.addToMembers(member);
             Config.members.serializeMembersSimple();
@@ -87,12 +78,9 @@ public class CmdAdd {
             EmbedBuilder embed = member.memberEmbed("Added new user "+ member.getMemberGithubName());
             Config.guild.getTextChannelById(channelID).sendMessage(embed.build()).queue();
 
-//            Consumer<? super Message> callbackMessage = (response) -> member.setMemberDiscordMsgID(response.getId());
             Consumer<? super Message> callbackMessage = (response) -> setMemberMessageID(member, response.getId());
             Config.guild.getTextChannelById(membersChannelID).sendMessage(embed.build()).queue(callbackMessage);
             embed.clear();
-
-            member.setMemberDiscordMsgID(memberDiscordMsgID);
         }
     }
 
@@ -100,33 +88,4 @@ public class CmdAdd {
         member.setMemberDiscordMsgID(ID);
         Config.members.serializeMembersSimple();
     }
-
-//    private static EmbedBuilder memberEmbed(Member member, String account, JsonObject api1) {
-//        String repos = member.getMemberGithubPublicRepos();
-//        String followers = member.getMemberGithubFollowers();
-//        String following = member.getMemberGithubFollowing();
-//
-//        EmbedBuilder embed = new EmbedBuilder().setColor(Color.decode(successColor));
-//        embed.setTitle("Added new user "+ account);
-//        embed.setThumbnail(member.getMemberGithubAvatarURL());
-//        embed.addField("Public repositories",
-//                "["+ repos +" repositor"+ (repos.equals("1") ? "y" : "ies") +"]("+
-//                        member.getMemberGithubPublicReposURL() +")", true);
-//        embed.addField("Followers",
-//                "["+ followers +" follower"+ (followers.equals("1") ? "" : "s")+ "]("+
-//                        member.getMemberGithubFollowersURL() +")", true);
-//        embed.addField("Following",
-//                "[Following "+ following +"]("+ member.getMemberGithubFollowingURL() +")", true);
-//        embed.addField("Points",
-//                member.getMemberPoints() +" point"+ (member.getMemberPoints() == 1 ? "" : "s"),true);
-//        embed.addField("Commits",
-//                member.getMemberCommits() +" commit"+ (member.getMemberCommits() == 1 ? "" : "s"), true);
-//        embed.addField("Lines added",
-//                member.getMemberLinesAdded() +" line"+ (member.getMemberLinesAdded() == 1 ? "" : "s"), false);
-//        embed.addField("Lines removed",
-//                member.getMemberLinesRemoved() +" line"+ (member.getMemberLinesRemoved() == 1 ? "" : "s"), true);
-//        embed.setFooter("Account created "+ api1.get("created_at").getAsString()
-//                .replaceAll("T", "   ").replaceAll("Z",""));
-//        return embed;
-//    }
 }

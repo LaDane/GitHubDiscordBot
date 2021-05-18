@@ -1,6 +1,7 @@
 package Chart;
 
 import Core.Config;
+import Member.Member;
 import io.quickchart.QuickChart;
 import java.time.LocalDate;
 
@@ -8,6 +9,11 @@ public class DoughnutChart {
     public static String doughnutChart() {
         int[] botLogPoints = Config.botLogs.getBotLogPoints(LocalDate.now());
         return createDoughnutChart(botLogPoints[0], botLogPoints[1], botLogPoints[2], botLogPoints[3]);
+    }
+
+    public static String doughnutChart(Member member) {
+        int[] memberLogPoints = member.getMemberLogPoints(LocalDate.now());
+        return createDoughnutChart(memberLogPoints[0], memberLogPoints[1], memberLogPoints[2], memberLogPoints[4]);
     }
 
     public static String createDoughnutChart(int pointsGiven, int pointsWon, int pointsLost, int pointsSpent) {

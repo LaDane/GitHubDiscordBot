@@ -1,7 +1,6 @@
 package Role;
 
 import Core.Config;
-import Member.Members;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

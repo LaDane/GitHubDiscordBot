@@ -5,21 +5,24 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class AllChannels {
-    private ArrayList<BotChannel> allCategories = new ArrayList<>();
-    private ArrayList<BotChannel> allChannels = new ArrayList<>();
+    private BotChannel membersChannel;
+    private BotChannel leaderboardChannel;
+    private BotChannel commitsCommandsChannel;
+    private BotChannel graphsChannel;
 
-    public AllChannels(ArrayList<BotChannel> allChannels) {
-        this.allChannels = allChannels;
-    }
+    public AllChannels() {}
 
-    public ArrayList<BotChannel> getAllCategories() {return allCategories;}
-    public void addToAllCategories(BotChannel category) {allCategories.add(category);}
+    public BotChannel getMembersChannel() {return membersChannel;}
+    public BotChannel getLeaderboardChannel() {return leaderboardChannel;}
+    public BotChannel getCommitsCommandsChannel() {return commitsCommandsChannel;}
+    public BotChannel getGraphsChannel() {return graphsChannel;}
 
-    public ArrayList<BotChannel> getAllChannels() {return allChannels;}
-    public void addToAllChannels(BotChannel channel) {allChannels.add(channel);}
+    public void setMembersChannel(String ID, String name) {membersChannel = new BotChannel(ID, name);}
+    public void setLeaderboardChannel(String ID, String name) {leaderboardChannel = new BotChannel(ID, name);}
+    public void setCommitsCommandsChannel(String ID, String name) {commitsCommandsChannel = new BotChannel(ID,name);}
+    public void setGraphsChannel(String ID, String name) {graphsChannel = new BotChannel(ID, name);}
 
 
     public void serializeAllChannelsSimple() {
@@ -32,7 +35,6 @@ public class AllChannels {
             e.printStackTrace();
         }
     }
-
 
     public void deserializeAllChannelsSimple() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

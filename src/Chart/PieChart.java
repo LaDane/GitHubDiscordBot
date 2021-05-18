@@ -11,8 +11,6 @@ import java.util.ArrayList;
 public class PieChart {
     public static String pieChart() {
         ArrayList<RepoStats> totalRepoStats = new ArrayList<>();
-
-        // Fill totalRepoStats with
         for (Member member : Config.members.getMembers()) {
             for (RepoStats repoStats : member.getMemberRepoStats()) {
                 String repoLanguage = repoStats.getRepoLanguage();
@@ -39,7 +37,21 @@ public class PieChart {
             languages[i] = totalRepoStats.get(i).getRepoLanguage();
             languageAmount[i] = totalRepoStats.get(i).getRepoLanguageAmount();
             languageHEX[i] = Config.pLangs.getColorByLanguage(languages[i]);
-//            System.out.println("Language: "+ languages[i] +"\ttAmount: "+ languageAmount[i] +"\t\tHEX: "+ languageHEX[i]);
+        }
+        if (languages.length == 0)
+            return createPieChart(new String[]{"No data"}, new int[]{1}, new String[]{"#0099ff"});
+
+        return createPieChart(languages, languageAmount, languageHEX);
+    }
+
+    public static String pieChart(Member member) {
+        String[] languages = new String[member.getMemberRepoStats().size()];
+        int[] languageAmount = new int[member.getMemberRepoStats().size()];
+        String[] languageHEX = new String[member.getMemberRepoStats().size()];
+        for (int i = 0; i < member.getMemberRepoStats().size(); i++) {
+            languages[i] = member.getMemberRepoStats().get(i).getRepoLanguage();
+            languageAmount[i] = member.getMemberRepoStats().get(i).getRepoLanguageAmount();
+            languageHEX[i] = Config.pLangs.getColorByLanguage(languages[i]);
         }
         if (languages.length == 0)
             return createPieChart(new String[]{"No data"}, new int[]{1}, new String[]{"#0099ff"});
@@ -81,16 +93,13 @@ public class PieChart {
                 "  data: {" +
                 "    datasets: [" +
                 "      {" +
-//                "        data: [84, 28, 57, 19, 97]," +
                 "        data: ["+ dataString +"]," +
 
                 "        backgroundColor: [" +
-//                "          'rgb(255, 99, 132)'," +
                              colorString +
                 "        ]," +
                 "      }," +
                 "    ]," +
-//                "    labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue']," +
                 "    labels: ["+ labelsString +"]," +
                 "    " +
                 "  }," +

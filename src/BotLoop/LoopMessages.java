@@ -1,6 +1,5 @@
 package BotLoop;
 
-import BotChannel.BotChannel;
 import BotMessage.BotMsgChart;
 import BotMessage.BotMsgLeaderboard;
 import Chart.*;
@@ -10,16 +9,14 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
 public class LoopMessages {
-    public static void loopMessages(BotChannel leaderboardChannel, BotChannel graphsChannel) {
-        // Config.botMsg.deserializeBotLogsSimple();
-
-        if (leaderboardChannel == null || graphsChannel == null) {
+    public static void loopMessages() {
+        if (Config.allChannels.getLeaderboardChannel() == null || Config.allChannels.getGraphsChannel() == null) {
             System.out.println("ERROR: Channels have not been setup! Cannot edit bot messages!");
             return;
         }
 
-        TextChannel lChannel = Config.guild.getTextChannelById(leaderboardChannel.getChannelID());
-        TextChannel gChannel = Config.guild.getTextChannelById(graphsChannel.getChannelID());
+        TextChannel lChannel = Config.guild.getTextChannelById(Config.allChannels.getLeaderboardChannel().getChannelID());
+        TextChannel gChannel = Config.guild.getTextChannelById(Config.allChannels.getGraphsChannel().getChannelID());
         if (lChannel == null || gChannel == null) {
             System.out.println("ERROR: Leaderboard / Graphs channel does not exist!");
             return;
@@ -29,6 +26,7 @@ public class LoopMessages {
         EmbedBuilder leaderboardEmbed = BotMsgLeaderboard.leaderboardEmbed();
         lChannel.retrieveMessageById(Config.botMsg.getLeaderboardID()).queue((message) -> {
             message.editMessage(leaderboardEmbed.build()).queue();
+            leaderboardEmbed.clear();
         }, (failure) -> {
             if (failure instanceof ErrorResponseException) {
                 System.out.println("ERROR: Failed to update leaderboard message!");
@@ -40,6 +38,7 @@ public class LoopMessages {
         EmbedBuilder gaugeEmbed = BotMsgChart.chartEmbed(gaugeURL);
         gChannel.retrieveMessageById(Config.botMsg.getGaugeChartID()).queue((message) -> {
             message.editMessage(gaugeEmbed.build()).queue();
+            gaugeEmbed.clear();
         }, (failure) -> {
             if (failure instanceof ErrorResponseException) {
                 System.out.println("ERROR: Failed to update gauge chart message!");
@@ -51,6 +50,7 @@ public class LoopMessages {
         EmbedBuilder doughnutEmbed = BotMsgChart.chartEmbed(doughnutURL);
         gChannel.retrieveMessageById(Config.botMsg.getDonutChartID()).queue((message) -> {
             message.editMessage(doughnutEmbed.build()).queue();
+            doughnutEmbed.clear();
         }, (failure) -> {
             if (failure instanceof ErrorResponseException) {
                 System.out.println("ERROR: Failed to update doughnut chart message!");
@@ -62,6 +62,7 @@ public class LoopMessages {
         EmbedBuilder pieEmbed = BotMsgChart.chartEmbed(pieURL);
         gChannel.retrieveMessageById(Config.botMsg.getPieChartID()).queue((message) -> {
             message.editMessage(pieEmbed.build()).queue();
+            pieEmbed.clear();
         }, (failure) -> {
             if (failure instanceof ErrorResponseException) {
                 System.out.println("ERROR: Failed to update pie chart message!");
@@ -73,6 +74,7 @@ public class LoopMessages {
         EmbedBuilder stackBarEmbed = BotMsgChart.chartEmbed(stackBarURL);
         gChannel.retrieveMessageById(Config.botMsg.getStackBarChartID()).queue((message) -> {
             message.editMessage(stackBarEmbed.build()).queue();
+            stackBarEmbed.clear();
         }, (failure) -> {
             if (failure instanceof ErrorResponseException) {
                 System.out.println("ERROR: Failed to update stacked bar chart message!");
@@ -84,6 +86,7 @@ public class LoopMessages {
         EmbedBuilder lineEmbed = BotMsgChart.chartEmbed(lineURL);
         gChannel.retrieveMessageById(Config.botMsg.getLineChartID()).queue((message) -> {
             message.editMessage(lineEmbed.build()).queue();
+            lineEmbed.clear();
         }, (failure) -> {
             if (failure instanceof ErrorResponseException) {
                 System.out.println("ERROR: Failed to update line chart message!");

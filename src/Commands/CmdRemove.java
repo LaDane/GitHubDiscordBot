@@ -1,6 +1,5 @@
 package Commands;
 
-import BotChannel.BotChannel;
 import Core.Config;
 import Member.Member;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -43,24 +42,17 @@ public class CmdRemove {
             Config.guild.getTextChannelById(channelID).sendMessage(embed.build()).queue();
             embed.clear();
 
-            // Delete member embed in members channel if exists
-            BotChannel membersChannel = null;
-            for (BotChannel channel : Config.allChannels.getAllChannels()) {
-                if (channel.getChannelName().equals("members"))
-                    membersChannel = channel;
-            }
-            if (membersChannel != null) {
-                TextChannel mChannel = Config.guild.getTextChannelById(membersChannel.getChannelID());
-                if (mChannel == null) {System.out.println("ERROR: Members channel does not exist!"); return;}
+            TextChannel mChannel = Config.guild.getTextChannelById(Config.allChannels.getMembersChannel().getChannelID());
+            if (mChannel == null) {System.out.println("ERROR: Members channel does not exist!"); return;}
 
-                mChannel.retrieveMessageById(memberCheck.getMemberDiscordMsgID()).queue((message) -> {
-                    message.delete().queue();
-                }, (failure) -> {
-                    if (failure instanceof ErrorResponseException) {
-                        System.out.println("ERROR: Member embed message does not exist in Members channel!");
-                    }
-                });
-            }
+            mChannel.retrieveMessageById(memberCheck.getMemberDiscordMsgID()).queue((message) -> {
+                message.delete().queue();
+            }, (failure) -> {
+                if (failure instanceof ErrorResponseException) {
+                    System.out.println("ERROR: Member embed message does not exist in Members channel!");
+                }
+            });
+//            }
 
             // Save
             Config.members.removeFromMembers(memberCheck);

@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import java.util.function.Consumer;
 
-import BotChannel.BotChannel;
 import Core.Config;
 
 public class SetupChannels {
@@ -13,11 +12,8 @@ public class SetupChannels {
     private static final String categoryName = "STAT TRACKER";
     private enum channelType {VOICE, TEXT}
     private static final String[][] channelNames = {
-//            {"Most Points = ", "VOICE"},
-//            {"Most Commits = ", "VOICE"},
-//            {"Most Repos = ", "VOICE"},
             {"members", "TEXT"},
-            {"leaderboard", "TEXT"},
+            {"leaderboard-shop", "TEXT"},
             {"commits-commands", "TEXT"},
             {"graphs", "TEXT"}
     };
@@ -29,14 +25,12 @@ public class SetupChannels {
     }
 
     private static void newCategory(String name) {
-        Consumer<? super Category> callbackCategory = (response) -> saveCategory(response, name);
+        Consumer<? super Category> callbackCategory = (response) -> saveCategory(response);
         Config.guild.createCategory(name).setPosition(0).queue(callbackCategory);
     }
 
-    private static void saveCategory(Category response, String name) {
+    private static void saveCategory(Category response) {
         cat = response;
-        Config.allChannels.addToAllCategories(new BotChannel(response.getId(), name));
-        Config.allChannels.serializeAllChannelsSimple();
         createAllChannels();
     }
 
@@ -60,7 +54,13 @@ public class SetupChannels {
     }
 
     private static void saveChannel(String id, String name) {
-        Config.allChannels.addToAllChannels(new BotChannel(id, name));
+        switch(name) {
+            case ("members") -> Config.allChannels.setMembersChannel(id, name);
+            case ("leaderboard-shop") -> Config.allChannels.setLeaderboardChannel(id, name);
+            case ("commits-commands") -> Config.allChannels.setCommitsCommandsChannel(id, name);
+            case ("graphs") -> Config.allChannels.setGraphsChannel(id, name);
+        }
+
         Config.allChannels.serializeAllChannelsSimple();
     }
 }

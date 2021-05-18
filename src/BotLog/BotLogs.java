@@ -1,7 +1,6 @@
 package BotLog;
 
 import Core.Config;
-import Member.Members;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -15,14 +14,12 @@ public class BotLogs {
     public BotLogs() {}
 
     public ArrayList<BotLog> getBotLogs() {return botLogs;}
-    public void addToBotLogs(BotLog botLog) {botLogs.add(botLog);}
-    public void removeFromBotLogs(BotLog botLog) {botLogs.remove(botLog);}
 
+    public void addToBotLogs(BotLog botLog) {botLogs.add(botLog);}
 
     public void updateBotLogs(int commits, int linesAdd, int linesRem,
                               int pointsGiven, int pointsWon, int pointsLost, int pointsSpent,
                               int msg, int msgBot) {
-//        deserializeBotLogsSimple();
 
         LocalDate today = LocalDate.now();
         BotLog latestBotLog = getBotLog(today);

@@ -1,13 +1,12 @@
 package Member;
 
-import BotChannel.BotChannel;
 import Core.Config;
-import com.google.gson.JsonObject;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
 import java.awt.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Member {
@@ -30,8 +29,8 @@ public class Member {
     private int memberCommits;
     private int memberLinesAdded;
     private int memberLinesRemoved;
-    private ArrayList<String> memberItemsOwned;
     private ArrayList<RepoStats> memberRepoStats = new ArrayList<RepoStats>();
+    private ArrayList<MemberLog> memberLogs = new ArrayList<MemberLog>();
 
     public Member(String memberGithubName, String memberGithubURL, String memberGithubApiURL,
                   String memberAvatarURL, String memberGithubPublicRepos, String memberGithubPublicReposURL,
@@ -39,8 +38,7 @@ public class Member {
                   String memberGithubFollowing, String memberGithubFollowingURL,
                   String memberGithubCreatedAt, String memberLastCommit, String memberDiscordID,
                   String memberDiscordMsgID, String memberColor, int memberPoints,
-                  int memberCommits, int memberLinesAdded, int memberLinesRemoved,
-                  ArrayList<String> memberItemsOwned) {
+                  int memberCommits, int memberLinesAdded, int memberLinesRemoved) {
         this.memberGithubName = memberGithubName;
         this.memberGithubURL = memberGithubURL;
         this.memberGithubApiURL = memberGithubApiURL;
@@ -60,20 +58,18 @@ public class Member {
         this.memberCommits = memberCommits;
         this.memberLinesAdded = memberLinesAdded;
         this.memberLinesRemoved = memberLinesRemoved;
-        this.memberItemsOwned = memberItemsOwned;
-//        this.memberRepoStats = new ArrayList<RepoStats>();
     }
 
     public String getMemberGithubName() {return memberGithubName;}
-    public String getMemberGithubURL() {return memberGithubURL;}
-    public String getMemberGithubApiURL() {return memberGithubApiURL;}
+//    public String getMemberGithubURL() {return memberGithubURL;}
+//    public String getMemberGithubApiURL() {return memberGithubApiURL;}
     public String getMemberGithubAvatarURL() {return memberGithubAvatarURL;}
-    public String getMemberGithubPublicRepos() {return memberGithubPublicRepos;}
-    public String getMemberGithubPublicReposURL() {return memberGithubPublicReposURL;}
-    public String getMemberGithubFollowers() {return memberGithubFollowers;}
-    public String getMemberGithubFollowersURL() {return memberGithubFollowersURL;}
-    public String getMemberGithubFollowing() {return memberGithubFollowing;}
-    public String getMemberGithubFollowingURL() {return memberGithubFollowingURL;}
+//    public String getMemberGithubPublicRepos() {return memberGithubPublicRepos;}
+//    public String getMemberGithubPublicReposURL() {return memberGithubPublicReposURL;}
+//    public String getMemberGithubFollowers() {return memberGithubFollowers;}
+//    public String getMemberGithubFollowersURL() {return memberGithubFollowersURL;}
+//    public String getMemberGithubFollowing() {return memberGithubFollowing;}
+//    public String getMemberGithubFollowingURL() {return memberGithubFollowingURL;}
     public String getMemberDiscordID() {return memberDiscordID;}
     public String getMemberDiscordMsgID() {return memberDiscordMsgID;}
     public String getMemberColor() {return memberColor;}
@@ -82,8 +78,8 @@ public class Member {
     public int getMemberCommits() {return memberCommits;}
     public int getMemberLinesAdded() {return memberLinesAdded;}
     public int getMemberLinesRemoved() {return memberLinesRemoved;}
-    public ArrayList<String> getMemberItemsOwned() {return memberItemsOwned;}
     public ArrayList<RepoStats> getMemberRepoStats() {return memberRepoStats;}
+//    public ArrayList<MemberLog> getMemberLogs() {return memberLogs;}
 
     public void setMemberGithubAvatarURL(String url) {memberGithubAvatarURL = url;}
     public void setMemberGithubPublicRepos(String repos) {memberGithubPublicRepos = repos;}
@@ -97,10 +93,10 @@ public class Member {
     public void setMemberLinesAdded(int lines) {memberLinesAdded = lines;}
     public void setMemberLinesRemoved(int lines) {memberLinesRemoved = lines;}
 
-    public void addMemberItemOwned(String itemName) {memberItemsOwned.add(itemName);}
     public void addToMemberRepoStats(RepoStats stats) {memberRepoStats.add(stats);}
     public void resetMemberRepoStats() {memberRepoStats.clear();}
 
+    public void addToMemberLogs(MemberLog log) {memberLogs.add(log);}
 
     public void updateMemberRepoStats(String repoLanguage) {
         boolean languageExistsInRepoStats = false;
@@ -108,14 +104,65 @@ public class Member {
             if (repoStats.getRepoLanguage().matches(repoLanguage)) {
                 repoStats.setRepoLanguageAmount(repoStats.getRepoLanguageAmount() + 1);
                 languageExistsInRepoStats = true;
-//                System.out.println(memberGithubName +" already has "+ repoLanguage +" in their repoStats. + 1");
             }
         }
         if (!languageExistsInRepoStats) {
             RepoStats repoStats = new RepoStats(repoLanguage, 1);
             addToMemberRepoStats(repoStats);
-//            System.out.println(memberGithubName +" doesnt have "+ repoLanguage +" in their repoStats, adding new entry!");
         }
+    }
+
+    public void updateMemberLogs(int commits, int linesAdd, int linesRem,
+                                 int pointsGiven, int pointsWon, int pointsLost, int pointsSpent) {
+        LocalDate today = LocalDate.now();
+        MemberLog latestMemberLog = getMemberLog(today);
+        if (latestMemberLog == null) {
+            latestMemberLog = new MemberLog(today.toString(), commits, linesAdd, linesRem,
+                    pointsGiven, pointsWon, pointsLost, pointsSpent);
+            addToMemberLogs(latestMemberLog);
+        } else {
+            latestMemberLog.setMemberLogCommits(latestMemberLog.getMemberLogCommits() + commits);
+            latestMemberLog.setMemberLogLinesAdded(latestMemberLog.getMemberLogLinesAdded() + linesAdd);
+            latestMemberLog.setMemberLogLinesRemoved(latestMemberLog.getMemberLogLinesRemoved() + linesRem);
+
+            latestMemberLog.setMemberLogPointsGiven(latestMemberLog.getMemberLogPointsGiven() + pointsGiven);
+            latestMemberLog.setMemberLogPointsWon(latestMemberLog.getMemberLogPointsWon() + pointsWon);
+            latestMemberLog.setMemberLogPointsLost(latestMemberLog.getMemberLogPointsLost() + pointsLost);
+            latestMemberLog.setMemberLogPointsSpent(latestMemberLog.getMemberLogPointsSpent() + pointsSpent);
+        }
+    }
+
+    public int[] getMemberLogCommitsLines(LocalDate date) {
+        MemberLog latestMemberLog = getMemberLog(date);
+        if (latestMemberLog == null)
+            return new int[3];
+        else {
+            int logCommits = latestMemberLog.getMemberLogCommits();
+            int logLinesAdded = latestMemberLog.getMemberLogLinesAdded();
+            int logLinesRemoved = latestMemberLog.getMemberLogLinesRemoved();
+            return new int[]{logCommits, logLinesAdded, logLinesRemoved};
+        }
+    }
+
+    public int[] getMemberLogPoints(LocalDate date) {
+        MemberLog latestMemberLog = getMemberLog(date);
+        if (latestMemberLog == null)
+            return new int[4];
+        else {
+            int pointsGiven = latestMemberLog.getMemberLogPointsGiven();
+            int pointsWon = latestMemberLog.getMemberLogPointsWon();
+            int pointsLost = latestMemberLog.getMemberLogPointsLost();
+            int pointsSpent = latestMemberLog.getMemberLogPointsSpent();
+            return new int[]{pointsGiven, pointsWon, pointsLost, pointsSpent};
+        }
+    }
+
+    private MemberLog getMemberLog(LocalDate date) {
+        for (MemberLog log : memberLogs) {
+            if (log.getMemberLogDate().equals(date.toString()))
+                return log;
+        }
+        return null;
     }
 
     public EmbedBuilder memberEmbed(String title) {
@@ -139,8 +186,8 @@ public class Member {
         return embed;
     }
 
-    public void editMemberEmbed(BotChannel membersChannel) {
-        TextChannel mChannel = Config.guild.getTextChannelById(membersChannel.getChannelID());      // TODO: ERROR HERE
+    public void editMemberEmbed() {
+        TextChannel mChannel = Config.guild.getTextChannelById(Config.allChannels.getMembersChannel().getChannelID());
         if (mChannel == null) {System.out.println("ERROR: Members channel does not exist!"); return;}
 
         EmbedBuilder memberEmbed = memberEmbed(memberGithubName);

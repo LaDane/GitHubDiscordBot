@@ -1,8 +1,6 @@
 package PLang;
 
 import Core.Config;
-import PLang.*;
-import Role.DiscordRoles;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -21,7 +19,6 @@ public class PLangs {
     public String getColorByLanguage(String language) {
         for (PLang pLang : pLangs) {
             if (pLang.getLang().matches(language)) {
-//                System.out.println(language +" has GitHub color: "+ pLang.getColor());
                 return pLang.getColor();
             }
         }

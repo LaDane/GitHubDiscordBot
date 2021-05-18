@@ -1,6 +1,7 @@
 package Chart;
 
 import Core.Config;
+import Member.Member;
 import io.quickchart.QuickChart;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -8,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 public class LineChartCommits {
     public static String lineChartCommits(){
+        String title = "Total commits for all members by day:";
         int[] dayCommits = new int[7];
         String[] last7dates = new String[7];
 
@@ -17,10 +19,24 @@ public class LineChartCommits {
             dayCommits[i] = logData[0];
             last7dates[i] = LocalDate.now().minusDays(i).format(DateTimeFormatter.ofPattern("MMM dd"));
         }
-        return createLineChartCommits(dayCommits,last7dates);
+        return createLineChartCommits(dayCommits,last7dates, title);
     }
 
-    public static String createLineChartCommits(int[] dayCommits, String[] last7dates) {
+    public static String lineChartCommits(Member member) {
+        String title = "Total commits for "+ member.getMemberGithubName() +" by day: ";
+        int[] dayCommits = new int[7];
+        String[] last7dates = new String[7];
+
+        for (int i = 0; i < last7dates.length; i++) {
+            last7dates[i] = LocalDate.now().minusDays(i).toString();
+            int[] logData = member.getMemberLogCommitsLines(LocalDate.parse(last7dates[i]));
+            dayCommits[i] = logData[0];
+            last7dates[i] = LocalDate.now().minusDays(i).format(DateTimeFormatter.ofPattern("MMM dd"));
+        }
+        return createLineChartCommits(dayCommits,last7dates, title);
+    }
+
+    public static String createLineChartCommits(int[] dayCommits, String[] last7dates, String title) {
         QuickChart chart = new QuickChart();
         chart.setWidth(500);
         chart.setHeight(300);
@@ -41,7 +57,7 @@ public class LineChartCommits {
                 "  options: {" +
                 "    title: {" +
                 "      display: true," +
-                "      text: 'Total commits for all members by day: '," +
+                "      text: '"+ title +"'," +
                 "      fontColor: '#ffffff'" +
                 "    }," +
                 "    legend: {" +

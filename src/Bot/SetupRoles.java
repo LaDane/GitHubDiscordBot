@@ -2,21 +2,15 @@ package Bot;
 
 import Core.Config;
 import Role.DiscordRole;
-import net.dv8tion.jda.api.entities.Role;
 
 import java.awt.*;
-import java.util.ArrayList;
 
+// We never ended up using roles in this project
 public class SetupRoles {
-
-//    private static DiscordRole role1 = new DiscordRole("Casual", 100, "#00ff00");
-//    private static DiscordRole role2 = new DiscordRole("Advanced", 500, "#00ff00");
-
     private static DiscordRole[] discordRoles = {
         new DiscordRole("Casual", 100, "#00ff00"),
         new DiscordRole("Advanced", 500, "#00ff00")
     };
-
 
     public static void setupRoles() {
         for (DiscordRole dr : discordRoles) {

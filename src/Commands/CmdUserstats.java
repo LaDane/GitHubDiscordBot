@@ -1,76 +1,76 @@
 package Commands;
 
 
+import BotMessage.BotMsgChart;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.EmbedBuilder;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.function.Consumer;
+
 import Chart.*;
 import BotLoop.*;
 import Chart.MemberBarChart;
 import Core.Config;
 import Member.Member;
 import Web.API;
+import net.dv8tion.jda.api.entities.User;
 
 public class CmdUserstats {
     public static void cmdUserstats(String msg, String memberID, String channelID) {
-        String name = "";
-        String userPoints = "0 (Not registered)";
-        Member member = Cmd.getMemberWithID(memberID);
-        try {
-            //Message has param
-            if (!msg.split(" ")[1].equals("")) {
-                name = msg.split(" ")[1];
-
-                //Check if user with github name is in database
-                for (Member d : Config.members.getMembers()) {
-                    if (d.getMemberGithubName().equalsIgnoreCase(name)) {
-                        userPoints = String.valueOf(d.getMemberPoints());
-                        member = d;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            //Message has no param
-
-            //Check if message author has an account
-            for (Member d : Config.members.getMembers()) {
-                if (d.getMemberDiscordID().equals(memberID)) {
-                    name = d.getMemberGithubName();
-                    userPoints = String.valueOf(d.getMemberPoints());
+        if (!msg.contains(" ")) {                           // display stats for self
+            Member member = Cmd.getMemberWithID(memberID);
+            displayUserStats(member, channelID);
+        } else if (msg.contains("<@!")) {                     // display stats for tagged discord user
+            String stripped = msg.replaceAll("/userstats ", "");
+            String discordID = stripped.substring(stripped.lastIndexOf("!") + 1).replaceAll(">", "");
+            Consumer<? super User> callbackUser = (response) -> displayUserStats(Cmd.getMemberWithID(response.getId()), channelID);
+            Config.jda.retrieveUserById(discordID).queue(callbackUser);
+            return;
+        } else if (msg.contains(" ")) {                       // display stats for github account
+            String githubName = msg.replaceAll("/userstats ", "");
+            for (Member member : Config.members.getMembers()) {
+                if (githubName.equalsIgnoreCase(member.getMemberGithubName())) {
+                    displayUserStats(member, channelID);
                 }
             }
         }
 
-        //
-        if (name.equals("")) {
-            Cmd.sendErrorEmbed("User not found (or missing parameter)",null, channelID);
+    }
+
+    private static void displayUserStats(Member member, String channelID) {
+        if (member == null) {
+            Cmd.sendErrorEmbed("Account does not exist!", null, channelID);
             return;
         }
 
-        try {
-            String request = API.request("https://api.github.com/users/" + name);
-            JsonObject api = (JsonObject) new JsonParser().parse(request);
-            EmbedBuilder embed = new EmbedBuilder()
-                    .setColor(Color.decode(member.getMemberColor()))
-                    .setTitle("User stats for " + api.get("login").getAsString())
-                    .setThumbnail(api.get("avatar_url").getAsString())
-                    .addField("Public repositories", "[" + api.get("public_repos").getAsString() + " repositor" + (api.get("public_repos").getAsString().equals("1") ? "y" : "ies") + "](https://github.com/" + api.get("login").getAsString() + "?tab=repositories)", true)
-                    .addField("Followers", "[" + api.get("followers").getAsString() + " follower" + (api.get("followers").getAsString().equals("1") ? "" : "s") + "](https://github.com/" + api.get("login").getAsString() + "?tab=followers)", true)
-                    .addField("Following", "[Following " + api.get("following").getAsString() + "](https://github.com/" + api.get("login").getAsString() + "?tab=following)", true)
-                    .addField("Account created", api.get("created_at").getAsString().replaceAll("T", "   ").replaceAll("Z",""), true)
-                    .addField("Points", userPoints, true)
-                    .setImage(MemberBarChart.memberBarChart(member));
-//                    .setImage(Chart.createMemberBarChart(member,10,20,30,40,50,60,70));
-            Config.guild.getTextChannelById(channelID).sendMessage(embed.build()).queue();
-            embed.clear();
-        } catch (Exception e) {
-            System.out.println(e);
-            Cmd.sendErrorEmbed("GitHub user not found",null, channelID);
-        }
+        EmbedBuilder memberEmbed = member.memberEmbed(member.getMemberGithubName());
+        Config.guild.getTextChannelById(channelID).sendMessage(memberEmbed.build()).queue();
+        memberEmbed.clear();
 
+        // Member doughnut chart
+        String doughnutURL = DoughnutChart.doughnutChart(member);
+        EmbedBuilder doughnutEmbed = BotMsgChart.chartEmbed(doughnutURL);
+        Config.guild.getTextChannelById(channelID).sendMessage(doughnutEmbed.build()).queue();
+        doughnutEmbed.clear();
 
-        // set image = add image to embed
+        // Member pie chart
+        String pieURL = PieChart.pieChart(member);
+        EmbedBuilder pieEmbed = BotMsgChart.chartEmbed(pieURL);
+        Config.guild.getTextChannelById(channelID).sendMessage(pieEmbed.build()).queue();
+        pieEmbed.clear();
+
+        // Member stacked bar chart
+        String stackURL = StackedBarChart.stackedBarChart(member);
+        EmbedBuilder stackEmbed = BotMsgChart.chartEmbed(stackURL);
+        Config.guild.getTextChannelById(channelID).sendMessage(stackEmbed.build()).queue();
+        stackEmbed.clear();
+
+        // Member line chart
+        String lineURL = LineChartCommits.lineChartCommits(member);
+        EmbedBuilder lineEmbed = BotMsgChart.chartEmbed(lineURL);
+        Config.guild.getTextChannelById(channelID).sendMessage(lineEmbed.build()).queue();
+        lineEmbed.clear();
     }
 }

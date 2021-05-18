@@ -1,9 +1,7 @@
 package Message;
 
-import BotChannel.BotChannel;
 import Member.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -33,50 +31,36 @@ public class MessageListener extends ListenerAdapter {
         }
         Config.botLogs.updateBotLogs(0,0,0,0,0,0,0,1,0);
 
-        // Check if messages are sent in correct channels, if not then delete the message
-        BotChannel membersChannel = null;
-        BotChannel leaderboardChannel = null;
-        BotChannel commitsCommandsChannel = null;
-        BotChannel graphsChannel = null;
-        for (BotChannel channel : Config.allChannels.getAllChannels()) {
-            if (channel.getChannelName().equals("members")) membersChannel = channel;
-            if (channel.getChannelName().equals("leaderboard")) leaderboardChannel = channel;
-            if (channel.getChannelName().equals("commits-commands")) commitsCommandsChannel = channel;
-            if (channel.getChannelName().equals("graphs")) graphsChannel = channel;
-        }
-
-        if (channelID.equals(membersChannel.getChannelID()) ||
-                channelID.equals(leaderboardChannel.getChannelID()) ||
-                channelID.equals(graphsChannel.getChannelID()) ) {
+        // Delete message if posted in channels that don't allow member messages
+        if (channelID.equals(Config.allChannels.getMembersChannel().getChannelID()) ||
+                channelID.equals(Config.allChannels.getLeaderboardChannel().getChannelID()) ||
+                channelID.equals(Config.allChannels.getGraphsChannel().getChannelID()) ) {
             TextChannel tChannel = Config.guild.getTextChannelById(channelID);
             if (tChannel != null) {
                 tChannel.retrieveMessageById(messageID).queue((msg) -> {
                     msg.delete().queue();
                 }, (failure) -> {
                     if (failure instanceof ErrorResponseException) {
-                        System.out.println("ERROR: Could not delete a message from a member sent in the wrong channel!");
+                        System.out.println("ERROR: Could not delete a message from a member sent in "+ tChannel.getName() +" channel!");
                     }
                 });
             }
         }
 
-        // Handle error if commits commands channel doesnt exist
-        if (commitsCommandsChannel == null || !channelID.equals(commitsCommandsChannel.getChannelID()))
-            return;
-
-        //Switch
-        String cmd = message.split(" ")[0].toLowerCase();
-        switch (cmd) {
-            case ("/help") -> CmdHelp.cmdHelp(channelID);
-            case ("/add") -> CmdAdd.cmdAdd(message, memberID, channelID);
-            case ("/remove") -> CmdRemove.cmdRemove(message, memberID, channelID);
-            case ("/recent") -> CmdRecent.cmdRecent(message, memberID, channelID);
-//            case ("/leaderboard") -> CmdLeaderboard.cmdLeaderboard(channelID);
-            case ("/userstats") -> CmdUserstats.cmdUserstats(message, memberID, channelID);
-            case ("/flip") -> CmdFlip.cmdFlip(message, memberID, channelID);
-//            case ("/shop") -> CmdShop.cmdShop(memberID, channelID);
+        // Commands
+        if (channelID.equals(Config.allChannels.getCommitsCommandsChannel().getChannelID())) {
+            String cmd = message.split(" ")[0].toLowerCase();
+            switch (cmd) {
+                case ("/help") -> CmdHelp.cmdHelp(channelID);
+                case ("/add") -> CmdAdd.cmdAdd(message, memberID, channelID);
+                case ("/remove") -> CmdRemove.cmdRemove(message, memberID, channelID);
+                case ("/recent") -> CmdRecent.cmdRecent(message, memberID, channelID);
+                case ("/userstats") -> CmdUserstats.cmdUserstats(message, memberID, channelID);
+                case ("/flip") -> CmdFlip.cmdFlip(message, memberID, channelID);
+            }
         }
     }
+
     @Override
     public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent event) {
         if (event.getMember().getUser().equals(event.getJDA().getSelfUser())) {
@@ -84,14 +68,8 @@ public class MessageListener extends ListenerAdapter {
         }
 
         event.getReaction().removeReaction(event.getUser()).queue();
+        String leaderBoardChannelID = Config.allChannels.getLeaderboardChannel().getChannelID();
 
-        BotChannel leaderBoardChannel = null;
-        for (BotChannel channel : Config.allChannels.getAllChannels()) {
-            if (channel.getChannelName().equals("leaderboard"))
-                leaderBoardChannel = channel;
-
-        }
-        String leaderBoardChannelID = leaderBoardChannel.getChannelID();
         if (event.getChannel().getId().equals(leaderBoardChannelID)) {
             String memberID = event.getMember().getUser().getId();
             String reactionEmojiName = event.getReactionEmote().getName();

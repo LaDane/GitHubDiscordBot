@@ -46,8 +46,6 @@ public class MemberBarChart {
         int green = Color.decode(memberColor).getGreen();
         int blue = Color.decode(memberColor).getBlue();
 
-        //.format(DateTimeFormatter.ofPattern("dd MMM")
-
         QuickChart chart = new QuickChart();
         chart.setWidth(600);
         chart.setHeight(400);

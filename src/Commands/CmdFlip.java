@@ -1,6 +1,5 @@
 package Commands;
 
-import BotChannel.BotChannel;
 import Core.Config;
 import Member.Member;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -20,23 +19,21 @@ public class CmdFlip {
 
         if (Math.random() < 0.5) {
             member.setMemberPoints(member.getMemberPoints() - points);
+            member.updateMemberLogs(0,0,0,0, 0,points,0);
+
             embed.setColor(Color.red).setTitle("Better luck next time!")
                     .addField("You lost " + points + " point" + (points != 1 ? "s" : ""), "You now have " + member.getMemberPoints() + " point" + (points != 1 ? "s" : ""), false);
             Config.botLogs.updateBotLogs(0,0,0,0,0,points,0,0,0);
         } else {
             member.setMemberPoints(member.getMemberPoints() + points);
+            member.updateMemberLogs(0,0,0,0, points,0,0);
+
             embed.setColor(Color.green).setTitle("Congratulations!")
                     .addField("You won " + points + " point" + (points != 1 ? "s" : ""), "You now have " + member.getMemberPoints() + " point" + (points != 1 ? "s" : ""), false);
             Config.botLogs.updateBotLogs(0,0,0,0,points,0,0,0,0);
         }
 
-        BotChannel membersChannel = null;
-        for (BotChannel c : Config.allChannels.getAllChannels()) {
-            if (c.getChannelName().equals("members"))
-                membersChannel = c;
-        }
-        if (membersChannel != null)
-            member.editMemberEmbed(membersChannel);
+        member.editMemberEmbed();
 
         Config.members.serializeMembersSimple();
         Config.guild.getTextChannelById(channelID).sendMessage(embed.build()).queue();

@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Category;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import java.io.*;
@@ -20,9 +22,11 @@ public class Bot {
     public static DiscordBot bot;
 
     public static void run() throws LoginException, InterruptedException {
+        boolean noData = false;
+        boolean reset = false;
+
         Gson gson = new Gson();
 
-        boolean noData = false;
         File fileName = new File("src/Secrets/DiscordBot.json");
         try (Reader reader = new FileReader(fileName)) {
             bot = gson.fromJson(reader, DiscordBot.class);
@@ -51,12 +55,14 @@ public class Bot {
                 else if (resetBotInput.equalsIgnoreCase("n")) {
                     resetBot();
                     setupBot();
+                    noData = true;
+                    reset = true;
                     break;
                 } else
                     System.out.println("ERROR: Invalid input. Try again!\n");
             }
         }
-        startBot(noData);
+        startBot(noData, reset);
     }
 
     private static void resetBot() {
@@ -119,7 +125,7 @@ public class Bot {
     }
 
 
-    private static void startBot(boolean noData) throws LoginException, InterruptedException {
+    private static void startBot(boolean noData, boolean reset) throws LoginException, InterruptedException {
         String TOKEN = bot.getToken();
 
         Config.builder = JDABuilder.createDefault(TOKEN);
@@ -136,6 +142,26 @@ public class Bot {
         System.out.println("Bot setup successful!");
         Config.guild = Config.jda.getGuildById(bot.getServerID());
 
+        // Delete existing categories and channels in guild if user would like to reset
+        if (reset) {
+            for (Category category : Config.guild.getCategories()) {
+                if (category.getName().equals("STAT TRACKER")) {
+                    category.delete().queue();
+                    Thread.sleep(1 * 1000L);
+                }
+            }
+
+            for (TextChannel channel : Config.guild.getTextChannels()) {
+                if (channel.getName().equals("members") || channel.getName().equals("leaderboard-shop") ||
+                    channel.getName().equals("commits-commands") || channel.getName().equals("graphs")) {
+                    channel.delete().queue();
+                    Thread.sleep(1 * 1000L);
+                }
+            }
+
+        }
+
+        // Create / load json data
         if (noData) {
             Thread.sleep(3 * 1000L);
             SetupChannels.setupChannels();
@@ -146,7 +172,6 @@ public class Bot {
             Config.members.serializeMembersSimple();
             Config.botLogs.serializeBotLogsSimple();
             Config.botMsg.serializeBotMessageSimple();
-
         } else {
             Config.allChannels.deserializeAllChannelsSimple();
             Config.members.deserializeMembersSimple();

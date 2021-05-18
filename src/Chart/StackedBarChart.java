@@ -1,6 +1,7 @@
 package Chart;
 
 import Core.Config;
+import Member.Member;
 import io.quickchart.QuickChart;
 
 import java.time.LocalDate;
@@ -8,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 public class StackedBarChart {
     public static String stackedBarChart() {
+        String title = "Total amount of lines changed for all members by day:";
         int[] dayLinesAdded = new int[7];
         int[] dayLinesRemoved = new int[7];
         String[] last7dates = new String[7];
@@ -18,11 +20,27 @@ public class StackedBarChart {
             dayLinesAdded[i] = logData[1];
             dayLinesRemoved[i] = -logData[2];
             last7dates[i] = LocalDate.now().minusDays(i).format(DateTimeFormatter.ofPattern("MMM dd"));
-            }
-        return createStackedBarChart(dayLinesAdded, dayLinesRemoved, last7dates);
+        }
+        return createStackedBarChart(dayLinesAdded, dayLinesRemoved, last7dates, title);
     }
 
-    public static String createStackedBarChart(int[] dayLinesAdded,int[] dayLinesRemoved, String[] last7dates){
+    public static String stackedBarChart(Member member) {
+        String title = "Total amount of lines changed by "+ member.getMemberGithubName();
+        int[] dayLinesAdded = new int[7];
+        int[] dayLinesRemoved = new int[7];
+        String[] last7dates = new String[7];
+
+        for (int i = 0; i < last7dates.length; i++) {
+            last7dates[i] = LocalDate.now().minusDays(i).toString();
+            int[] logData = member.getMemberLogCommitsLines(LocalDate.parse(last7dates[i]));
+            dayLinesAdded[i] = logData[1];
+            dayLinesRemoved[i] = -logData[2];
+            last7dates[i] = LocalDate.now().minusDays(i).format(DateTimeFormatter.ofPattern("MMM dd"));
+        }
+        return createStackedBarChart(dayLinesAdded, dayLinesRemoved, last7dates, title);
+    }
+
+    public static String createStackedBarChart(int[] dayLinesAdded,int[] dayLinesRemoved, String[] last7dates, String title){
         QuickChart chart = new QuickChart();
         chart.setWidth(500);
         chart.setHeight(300);
@@ -46,7 +64,7 @@ public class StackedBarChart {
                 "  options: {" +
                 "    title: {" +
                 "      display: true," +
-                "      text: 'Total amount of lines changed for all members by day: '," +
+                "      text: '"+ title +"'," +
                 "      fontColor: '#ffffff'" +
                 "    }," +
                 "    legend: {" +

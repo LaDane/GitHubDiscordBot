@@ -1,7 +1,5 @@
 package BotLog;
 
-import java.time.LocalDate;
-
 public class BotLog {
     private String logDate;
     private int logCommits;
