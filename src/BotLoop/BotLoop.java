@@ -2,7 +2,7 @@ package BotLoop;
 
 public class BotLoop {
 
-    private static int sleepTime = 30;          // sleep in seconds
+    private static int sleepTime = 180;          // sleep in seconds
 
     public static void startBotLoop() {
         try {Thread.sleep(10 * 1000L);}

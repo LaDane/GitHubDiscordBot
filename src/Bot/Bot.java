@@ -22,7 +22,7 @@ public class Bot {
     public static DiscordBot bot;
 
     public static void run() throws LoginException, InterruptedException {
-        System.out.println("\nStarting GitHub Stat Tracker v1.0.1\n");
+        System.out.println("Starting GitHub Stat Tracker v1.0.1");
 
         boolean noData = false;
         boolean reset = false;
