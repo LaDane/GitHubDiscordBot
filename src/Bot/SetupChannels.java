@@ -55,10 +55,10 @@ public class SetupChannels {
 
     private static void saveChannel(String id, String name) {
         switch(name) {
-            case ("members") -> Config.allChannels.setMembersChannel(id, name);
-            case ("leaderboard-shop") -> Config.allChannels.setLeaderboardChannel(id, name);
-            case ("commits-commands") -> Config.allChannels.setCommitsCommandsChannel(id, name);
-            case ("graphs") -> Config.allChannels.setGraphsChannel(id, name);
+            case ("members"): {Config.allChannels.setMembersChannel(id, name); break;}
+            case ("leaderboard-shop"): {Config.allChannels.setLeaderboardChannel(id, name); break;}
+            case ("commits-commands"): {Config.allChannels.setCommitsCommandsChannel(id, name); break;}
+            case ("graphs"): {Config.allChannels.setGraphsChannel(id, name); break;}
         }
 
         Config.allChannels.serializeAllChannelsSimple();

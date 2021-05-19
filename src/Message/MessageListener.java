@@ -51,12 +51,12 @@ public class MessageListener extends ListenerAdapter {
         if (channelID.equals(Config.allChannels.getCommitsCommandsChannel().getChannelID())) {
             String cmd = message.split(" ")[0].toLowerCase();
             switch (cmd) {
-                case ("/help") -> CmdHelp.cmdHelp(channelID);
-                case ("/add") -> CmdAdd.cmdAdd(message, memberID, channelID);
-                case ("/remove") -> CmdRemove.cmdRemove(message, memberID, channelID);
-                case ("/recent") -> CmdRecent.cmdRecent(message, memberID, channelID);
-                case ("/userstats") -> CmdUserstats.cmdUserstats(message, memberID, channelID);
-                case ("/flip") -> CmdFlip.cmdFlip(message, memberID, channelID);
+                case ("/help"): {CmdHelp.cmdHelp(channelID); break;}
+                case ("/add"): {CmdAdd.cmdAdd(message, memberID, channelID); break;}
+                case ("/remove"): {CmdRemove.cmdRemove(message, memberID, channelID); break;}
+                case ("/recent"): {CmdRecent.cmdRecent(message, memberID, channelID); break;}
+                case ("/userstats"): {CmdUserstats.cmdUserstats(message, memberID, channelID); break;}
+                case ("/flip"): {CmdFlip.cmdFlip(message, memberID, channelID); break;}
             }
         }
     }
@@ -82,15 +82,15 @@ public class MessageListener extends ListenerAdapter {
             }
 
             switch (reactionEmojiName) {
-                case ("\uD83D\uDFEB") -> BotMsgShop.buyProduct(reactionMember,"#8B4513",100); //Brown
-                case ("\uD83D\uDFE8") -> BotMsgShop.buyProduct(reactionMember,"#F4AF37",1000); //Yellow
-                case ("\uD83D\uDFE7") -> BotMsgShop.buyProduct(reactionMember,"#d19600",2500); //Orange
-                case ("\uD83D\uDFE6") -> BotMsgShop.buyProduct(reactionMember,"#000a69",5000); //Blue
-                case ("\uD83D\uDFE9") -> BotMsgShop.buyProduct(reactionMember,"#097501",7500); //Green
-                case ("\uD83D\uDFE5") -> BotMsgShop.buyProduct(reactionMember,"#B80F0A",12500); //Red
-                case ("\uD83D\uDFEA") -> BotMsgShop.buyProduct(reactionMember,"#9966CC",25000); //Purple
-                case ("⬜") -> BotMsgShop.buyProduct(reactionMember,"#787878",50000); //White
-                case ("⬛") -> BotMsgShop.buyProduct(reactionMember,"#303136",1000000); //Black (discord embed color)
+                case ("\uD83D\uDFEB"): {BotMsgShop.buyProduct(reactionMember,"#8B4513",100); break;} //Brown
+                case ("\uD83D\uDFE8"): {BotMsgShop.buyProduct(reactionMember,"#F4AF37",1000); break;} //Yellow
+                case ("\uD83D\uDFE7"): {BotMsgShop.buyProduct(reactionMember,"#d19600",2500); break;} //Orange
+                case ("\uD83D\uDFE6"): {BotMsgShop.buyProduct(reactionMember,"#000a69",5000); break;} //Blue
+                case ("\uD83D\uDFE9"): {BotMsgShop.buyProduct(reactionMember,"#097501",7500); break;} //Green
+                case ("\uD83D\uDFE5"): {BotMsgShop.buyProduct(reactionMember,"#B80F0A",12500); break;} //Red
+                case ("\uD83D\uDFEA"): {BotMsgShop.buyProduct(reactionMember,"#9966CC",25000); break;} //Purple
+                case ("⬜"): {BotMsgShop.buyProduct(reactionMember,"#787878",50000); break;} //White
+                case ("⬛"): {BotMsgShop.buyProduct(reactionMember,"#303136",1000000); break;} //Black (discord embed color)
             }
         }
     }

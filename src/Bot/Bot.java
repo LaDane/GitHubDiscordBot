@@ -45,12 +45,11 @@ public class Bot {
             setupBot();
         else {
             while(true) {
-                String resetBotMsg = """
-                    Existing bot data already exists on this system.
-                    Would you like to load the existing bot data?
-                    Existing bot data will be wiped if 'n' is replied.
-                    (y / n)
-                    """;
+                String resetBotMsg =
+                    "\nExisting bot data already exists on this system.\n" +
+                    "Would you like to load the existing bot data?\n" +
+                    "Existing bot data will be wiped if 'n' is replied.\n" +
+                    "(y / n)";
                 String resetBotInput = getUserInput(resetBotMsg);
                 if (resetBotInput.equalsIgnoreCase("y"))
                     break;
