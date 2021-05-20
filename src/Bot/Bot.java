@@ -22,7 +22,7 @@ public class Bot {
     public static DiscordBot bot;
 
     public static void run() throws LoginException, InterruptedException {
-        System.out.println("\nStarting GitHub Stat Tracker v1.0.1\n");
+        System.out.println("\nStarting GitHub Stat Tracker v1.0.2\n");
 
         boolean noData = false;
         boolean reset = false;
@@ -49,7 +49,7 @@ public class Bot {
                     "\nExisting bot data already exists on this system.\n" +
                     "Would you like to load the existing bot data?\n" +
                     "Existing bot data will be wiped if 'n' is replied.\n" +
-                    "(y / n)";
+                    "(y / n)\n";
                 String resetBotInput = getUserInput(resetBotMsg);
                 if (resetBotInput.equalsIgnoreCase("y"))
                     break;

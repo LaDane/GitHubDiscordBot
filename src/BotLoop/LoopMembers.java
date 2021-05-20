@@ -16,6 +16,9 @@ import java.util.Objects;
 public class LoopMembers {
     public static void loopMembers() {
         for (Member member : Config.members.getMembers()) {
+            try {Thread.sleep(1000L);}
+            catch (InterruptedException e) {Thread.currentThread().interrupt();}
+
             System.out.println("\tCurrent member = "+ member.getMemberGithubName());
 
             String githubName = member.getMemberGithubName();
@@ -64,7 +67,7 @@ public class LoopMembers {
                         String repoLanguage = apiRepo.get(i).getAsJsonObject().get("language").getAsString();
                         member.updateMemberRepoStats(repoLanguage);
                     } catch (Exception e) {
-                        System.out.println("ERROR: Failed to get a programming language from "+ member.getMemberGithubName() +" repos!");
+                        System.out.println("\t\t\tERROR: Failed to get a programming language from "+ member.getMemberGithubName() +" repos!");
                     }
                 }
             }
@@ -90,7 +93,9 @@ public class LoopMembers {
                 LocalTime time = LocalTime.parse(commitDate.substring(commitDate.indexOf(" ")).replaceAll(" ", ""));
                 LocalDateTime newDateTime = LocalDateTime.of(date, time).plusHours(2);
                 if (newDateTime.isBefore(LocalDateTime.now().minusHours(1))) {
-                    System.out.println("ERROR: API call for "+ member.getMemberGithubName() +" is over an hour old. Continuing without updating!");
+                    System.out.println("\t\t\tERROR: API call for "+ member.getMemberGithubName() +" is over an hour old.");
+                    member.setMemberLastCommit(lastUpdate);
+                    Config.members.serializeMembersSimple();
                     continue;
                 }
                 date = newDateTime.toLocalDate();
