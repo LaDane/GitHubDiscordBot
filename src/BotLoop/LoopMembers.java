@@ -28,8 +28,14 @@ public class LoopMembers {
                     "application/vnd.github.cloak-preview");
             String requestRepo = API.request("https://api.github.com/users/"+ githubName +"/repos");
 
-            JsonObject api1 = (JsonObject) new JsonParser().parse(request1);
-            JsonObject api2 = (JsonObject) new JsonParser().parse(request2);
+            JsonObject api1;
+            try {api1 = (JsonObject) new JsonParser().parse(request1);}
+            catch (Exception e) {continue;}
+
+            JsonObject api2;
+            try {api2 = (JsonObject) new JsonParser().parse(request2);}
+            catch (Exception e) {continue;}
+
             JsonArray apiRepo = (JsonArray) new JsonParser().parse(requestRepo);
 
             // API error handling
